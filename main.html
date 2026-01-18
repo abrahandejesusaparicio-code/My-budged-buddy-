@@ -815,4 +815,299 @@
         </div>
 
         <!-- Two Column Layout for Bar and Donut -->
-        <div
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <!-- Category Comparison Bar Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Category Breakdown</div>
+            </div>
+            <div class="chart-placeholder">
+              <div class="bar" style="height: 75%;"></div>
+              <div class="bar" style="height: 55%;"></div>
+              <div class="bar" style="height: 90%;"></div>
+              <div class="bar" style="height: 45%;"></div>
+              <div class="bar" style="height: 65%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-around; margin-top: 1rem; font-size: 0.8rem; color: #8888a0;">
+              <span>Food</span>
+              <span>Transit</span>
+              <span>Books</span>
+              <span>Social</span>
+              <span>Other</span>
+            </div>
+          </div>
+
+          <!-- Category Distribution Donut Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Category Distribution</div>
+            </div>
+            <div class="chart-placeholder" style="align-items: center; justify-content: center;">
+              <div class="donut-chart">
+                <svg width="200" height="200" viewBox="0 0 200 200">
+                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#9077FF" stroke-width="35" stroke-dasharray="164.93 329.87" transform="rotate(-90 100 100)" style="opacity: 0.9;"></circle>
+                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#5E42DF" stroke-width="35" stroke-dasharray="98.96 395.84" stroke-dashoffset="-164.93" transform="rotate(-90 100 100)" style="opacity: 0.8;"></circle>
+                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#CD2B62" stroke-width="35" stroke-dasharray="65.97 428.83" stroke-dashoffset="-263.89" transform="rotate(-90 100 100)" style="opacity: 0.7;"></circle>
+                </svg>
+                <div class="donut-center">
+                  <div class="donut-total">$1,247</div>
+                  <div class="donut-label">Total</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="transactions-card">
+          <div class="chart-header">
+            <div class="chart-title">Recent Transactions</div>
+          </div>
+
+          <!-- Transaction Item 1 -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon">🍕</div>
+              <div class="transaction-details">
+                <div class="transaction-title">Campus Cafeteria</div>
+                <div class="transaction-meta">Food • Today, 12:30 PM</div>
+              </div>
+            </div>
+            <div class="transaction-amount">$12.50</div>
+            <div class="transaction-actions" id="actions1">
+              <button class="action-btn" onclick="editTransaction(1)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete" onclick="showDeleteModal(1)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="suggestion-indicator" id="suggestion1" style="display: none;" onclick="toggleTransactionSuggestion(1)">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Transaction Item 2 -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon">🚌</div>
+              <div class="transaction-details">
+                <div class="transaction-title">Bus Pass Refill</div>
+                <div class="transaction-meta">Transit • Yesterday, 8:15 AM</div>
+              </div>
+            </div>
+            <div class="transaction-amount">$25.00</div>
+            <div class="transaction-actions" id="actions2">
+              <button class="action-btn" onclick="editTransaction(2)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete" onclick="showDeleteModal(2)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Transaction Item 3 with Guardian Suggestion -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon">📚</div>
+              <div class="transaction-details">
+                <div class="transaction-title">Textbook - Physics 201</div>
+                <div class="transaction-meta">Books • Jan 16, 3:45 PM</div>
+              </div>
+            </div>
+            <div class="transaction-amount">$89.99</div>
+            <div class="transaction-actions" id="actions3">
+              <button class="action-btn" onclick="editTransaction(3)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete" onclick="showDeleteModal(3)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="suggestion-indicator" id="suggestion3" style="display: none;" onclick="toggleTransactionSuggestion(3)">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+            </div>
+          </div>
+          <div id="transactionSuggestion3" style="display: none;">
+            <div class="suggestion-card">
+              <div class="suggestion-label">Guardian Suggestion</div>
+              <div class="suggestion-text">Great purchase! Have you checked if there's a digital version or rental option that might be more affordable for next semester?</div>
+            </div>
+          </div>
+
+          <!-- Transaction Item 4 -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon">☕</div>
+              <div class="transaction-details">
+                <div class="transaction-title">Coffee Shop</div>
+                <div class="transaction-meta">Food • Jan 15, 10:00 AM</div>
+              </div>
+            </div>
+            <div class="transaction-amount">$5.75</div>
+            <div class="transaction-actions" id="actions4">
+              <button class="action-btn" onclick="editTransaction(4)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete" onclick="showDeleteModal(4)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Transaction Item 5 -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon">🎬</div>
+              <div class="transaction-details">
+                <div class="transaction-title">Movie Tickets</div>
+                <div class="transaction-meta">Social • Jan 14, 7:30 PM</div>
+              </div>
+            </div>
+            <div class="transaction-amount">$18.00</div>
+            <div class="transaction-actions" id="actions5">
+              <button class="action-btn" onclick="editTransaction(5)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <button class="action-btn delete" onclick="showDeleteModal(5)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <h2 class="modal-title">Delete Transaction?</h2>
+      <p class="modal-text">This will permanently remove this expense from your records. This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeDeleteModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get user role from session storage (set from index.html)
+    const userRole = sessionStorage.getItem('userRole') || 'student';
+    
+    // Initialize UI based on role
+    function initializeRole() {
+      const roleBadge = document.getElementById('roleBadge');
+      const viewOnlyBadge = document.getElementById('viewOnlyBadge');
+      const addButton = document.getElementById('addButton');
+      
+      if (userRole === 'guardian') {
+        roleBadge.textContent = 'Parent / Guardian';
+        roleBadge.classList.add('guardian');
+        viewOnlyBadge.style.display = 'inline-block';
+        
+        // Disable add button for guardians
+        addButton.classList.add('disabled');
+        addButton.onclick = null;
+        
+        // Hide all action buttons for guardians
+        for (let i = 1; i <= 5; i++) {
+          const actions = document.getElementById('actions' + i);
+          if (actions) {
+            const buttons = actions.querySelectorAll('.action-btn');
+            buttons.forEach(btn => btn.classList.add('disabled'));
+          }
+        }
+        
+        // Show guardian suggestions
+        document.getElementById('trendSuggestion').style.display = 'block';
+        document.getElementById('suggestion3').style.display = 'flex';
+      }
+    }
+
+    // Toggle suggestion visibility
+    function toggleSuggestion(id) {
+      const card = document.getElementById(id + 'SuggestionCard');
+      if (card) {
+        card.style.display = card.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    // Toggle transaction suggestion
+    function toggleTransactionSuggestion(id) {
+      const suggestion = document.getElementById('transactionSuggestion' + id);
+      if (suggestion) {
+        suggestion.style.display = suggestion.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    // Show add expense (visual only)
+    function showAddExpense() {
+      if (userRole === 'guardian') return;
+      alert('Add Expense Form\n\nIn production, this would open a form to add a new expense.');
+    }
+
+    // Edit transaction (visual only)
+    function editTransaction(id) {
+      if (userRole === 'guardian') return;
+      alert('Edit Transaction ' + id + '\n\nIn production, this would open an edit form.');
+    }
+
+    // Delete modal management
+    let currentDeleteId = null;
+
+    function showDeleteModal(id) {
+      if (userRole === 'guardian') return;
+      currentDeleteId = id;
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      currentDeleteId = null;
+      document.getElementById('deleteModal').classList.remove('active');
+    }
+
+    function confirmDelete() {
+      if (currentDeleteId) {
+        alert('Transaction ' + currentDeleteId + ' deleted\n\nIn production, this would remove the transaction.');
+        closeDeleteModal();
+      }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeDeleteModal();
+      }
+    });
+
+    // Initialize on page load
+    initializeRole();
+  </script>
+</body>
+</html>
