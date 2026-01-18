@@ -45,7 +45,6 @@
       to { opacity: 1; }
     }
 
-    /* Main Container */
     .container {
       max-width: 900px;
       width: 90%;
@@ -53,7 +52,6 @@
       padding: 2rem;
     }
 
-    /* Header Section */
     .header {
       margin-bottom: 4rem;
       animation: slideDown 0.8s ease-out;
@@ -85,7 +83,6 @@
       line-height: 1.6;
     }
 
-    /* Role Selection Cards */
     .role-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -124,7 +121,6 @@
       }
     }
 
-    /* Student Card - Purple/Violet */
     .role-card.student {
       border-color: rgba(144, 119, 255, 0.3);
     }
@@ -141,7 +137,6 @@
       transition: opacity 0.4s ease;
     }
 
-    /* Guardian Card - Blue/Indigo */
     .role-card.guardian {
       border-color: rgba(94, 66, 223, 0.3);
     }
@@ -173,7 +168,6 @@
       transition: all 0.15s ease;
     }
 
-    /* Icon/Symbol */
     .role-icon {
       width: 64px;
       height: 64px;
@@ -195,7 +189,6 @@
       background: linear-gradient(135deg, var(--color-2), var(--shade-2));
     }
 
-    /* Card Content */
     .role-title {
       font-size: 1.75rem;
       font-weight: 500;
@@ -213,7 +206,6 @@
       z-index: 1;
     }
 
-    /* Footer */
     .footer {
       margin-top: 3rem;
       font-size: 0.85rem;
@@ -222,7 +214,6 @@
       animation: fadeIn 1.2s ease-out;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .product-name {
         font-size: 2rem;
@@ -241,15 +232,12 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header Section -->
     <div class="header">
       <h1 class="product-name">Expense Tracker</h1>
       <p class="tagline">A clear view of student spending, built on trust.</p>
     </div>
 
-    <!-- Role Selection Cards -->
     <div class="role-cards">
-      <!-- Student Card -->
       <div class="role-card student" onclick="selectRole('student')">
         <div class="role-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -261,7 +249,6 @@
         <p class="role-description">Track and manage your expenses with full control over your spending records.</p>
       </div>
 
-      <!-- Guardian Card -->
       <div class="role-card guardian" onclick="selectRole('guardian')">
         <div class="role-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -273,22 +260,22 @@
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       <p>Your privacy is respected. All information stays between you and your trusted circle.</p>
     </div>
   </div>
 
-<script>
-    // Role selection handler - visual only, no real authentication
+  <script>
+    // Role selection handler - stores role and navigates to main dashboard
     function selectRole(role) {
-      // Store role selection in session storage
+      // Store role in session storage for main.html to read
       sessionStorage.setItem('userRole', role);
       
-      // Simulate navigation with smooth transition
+      // Smooth fade out transition
       document.body.style.opacity = '0';
       document.body.style.transition = 'opacity 0.3s ease';
       
+      // Navigate to main dashboard after transition
       setTimeout(() => {
         window.location.href = 'main.html';
       }, 300);
