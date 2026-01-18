@@ -127,6 +127,33 @@
       height: 20px;
     }
 
+    /* Logout Button in Sidebar */
+    .logout-btn {
+      margin-top: auto;
+      padding: 1rem 1.25rem;
+      background: rgba(144, 119, 255, 0.1);
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 12px;
+      color: #b8b8cc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .logout-btn:hover {
+      background: rgba(144, 119, 255, 0.15);
+      color: #f5f5fa;
+      border-color: rgba(144, 119, 255, 0.3);
+    }
+
+    .logout-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
     /* Main Content Area */
     .main-content {
       flex: 1;
@@ -141,10 +168,142 @@
       align-items: center;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .page-title {
       font-size: 2rem;
       font-weight: 500;
       color: #f5f5fa;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Notification Bell */
+    .notification-bell {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background: rgba(144, 119, 255, 0.15);
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .notification-bell:hover {
+      background: rgba(144, 119, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    .notification-bell svg {
+      width: 20px;
+      height: 20px;
+      color: var(--color-5);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #fff;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    /* Notification Card */
+    .notification-card {
+      position: fixed;
+      top: 6rem;
+      right: 2rem;
+      max-width: 380px;
+      background: linear-gradient(145deg, rgba(56, 56, 88, 0.95), rgba(37, 37, 59, 0.95));
+      border: 1px solid rgba(94, 66, 223, 0.3);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      animation: slideInRight 0.4s ease-out;
+      z-index: 100;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .notification-title {
+      font-size: 0.9rem;
+      color: var(--color-2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .notification-close {
+      width: 24px;
+      height: 24px;
+      background: rgba(144, 119, 255, 0.1);
+      border: none;
+      border-radius: 6px;
+      color: #b8b8cc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .notification-close:hover {
+      background: rgba(144, 119, 255, 0.2);
+      color: #f5f5fa;
+    }
+
+    .notification-body {
+      color: #d8d8e8;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .notification-time {
+      font-size: 0.8rem;
+      color: #8888a0;
     }
 
     .add-button {
@@ -180,6 +339,16 @@
     .add-button.disabled:hover {
       transform: none;
       box-shadow: none;
+    }
+
+    /* Page Container - for different views */
+    .page-container {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .page-container.active {
+      display: block;
     }
 
     /* Dashboard Grid */
@@ -278,21 +447,6 @@
       color: #f5f5fa;
     }
 
-    .chart-suggestion {
-      background: rgba(94, 66, 223, 0.15);
-      border: 1px solid rgba(94, 66, 223, 0.3);
-      padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      color: var(--color-2);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .chart-suggestion:hover {
-      background: rgba(94, 66, 223, 0.25);
-    }
-
     /* Placeholder Chart Visuals */
     .chart-placeholder {
       height: 250px;
@@ -304,7 +458,7 @@
       position: relative;
     }
 
-    /* Line Chart */
+    /* Line Chart with Animation */
     .line-chart {
       position: relative;
       height: 100%;
@@ -316,38 +470,93 @@
       fill: none;
       stroke-width: 3;
       filter: drop-shadow(0 4px 8px rgba(144, 119, 255, 0.3));
-      animation: drawLine 1.5s ease-out;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawLine 2s ease-out forwards;
     }
 
     @keyframes drawLine {
-      from { stroke-dashoffset: 1000; }
       to { stroke-dashoffset: 0; }
     }
 
     .line-gradient {
       fill: url(#lineGradient);
-      opacity: 0.3;
-      animation: fadeIn 1.5s ease-out;
+      opacity: 0;
+      animation: fadeInGradient 2s ease-out 0.5s forwards;
     }
 
-    /* Bar Chart */
+    @keyframes fadeInGradient {
+      to { opacity: 0.3; }
+    }
+
+    /* Chart Points */
+    .chart-point {
+      fill: var(--color-5);
+      stroke: #f5f5fa;
+      stroke-width: 2;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out forwards;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chart-point:hover {
+      r: 7;
+      fill: var(--shade-5);
+    }
+
+    .chart-point:nth-child(1) { animation-delay: 0.3s; }
+    .chart-point:nth-child(2) { animation-delay: 0.5s; }
+    .chart-point:nth-child(3) { animation-delay: 0.7s; }
+    .chart-point:nth-child(4) { animation-delay: 0.9s; }
+    .chart-point:nth-child(5) { animation-delay: 1.1s; }
+    .chart-point:nth-child(6) { animation-delay: 1.3s; }
+    .chart-point:nth-child(7) { animation-delay: 1.5s; }
+
+    /* Chart Labels */
+    .chart-labels {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #8888a0;
+    }
+
+    /* Tooltip */
+    .chart-tooltip {
+      position: absolute;
+      background: rgba(37, 37, 59, 0.95);
+      border: 1px solid rgba(144, 119, 255, 0.4);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.85rem;
+      color: #f5f5fa;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+
+    /* Bar Chart with Animation */
     .bar {
       flex: 1;
       background: linear-gradient(180deg, var(--color-5), var(--shade-5));
       border-radius: 8px 8px 0 0;
       transition: all 0.3s ease;
-      animation: growBar 0.8s ease-out backwards;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      animation: growBar 1s ease-out forwards;
       position: relative;
+      cursor: pointer;
     }
 
     .bar:hover {
       opacity: 0.8;
-      transform: translateY(-4px);
+      transform: scaleY(1) translateY(-4px);
     }
 
     @keyframes growBar {
-      from { transform: scaleY(0); transform-origin: bottom; }
-      to { transform: scaleY(1); transform-origin: bottom; }
+      to { transform: scaleY(1); }
     }
 
     .bar:nth-child(1) { animation-delay: 0.1s; }
@@ -356,7 +565,19 @@
     .bar:nth-child(4) { animation-delay: 0.4s; }
     .bar:nth-child(5) { animation-delay: 0.5s; }
 
-    /* Donut Chart */
+    .bar-value {
+      position: absolute;
+      top: -1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.85rem;
+      color: #f5f5fa;
+      font-weight: 500;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    /* Donut Chart with Animation */
     .donut-chart {
       width: 200px;
       height: 200px;
@@ -366,11 +587,19 @@
 
     .donut-segment {
       transition: all 0.3s ease;
+      cursor: pointer;
+      stroke-dasharray: 0 500;
+      animation: fillDonut 1.5s ease-out forwards;
+    }
+
+    @keyframes fillDonut {
+      to { stroke-dasharray: var(--dash-array); }
     }
 
     .donut-segment:hover {
       opacity: 0.8;
       transform: scale(1.05);
+      transform-origin: center;
     }
 
     .donut-center {
@@ -493,69 +722,267 @@
       pointer-events: none;
     }
 
-    /* Guardian Suggestion Indicator */
-    .suggestion-indicator {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      width: 24px;
-      height: 24px;
-      background: rgba(94, 66, 223, 0.2);
-      border: 1px solid rgba(94, 66, 223, 0.4);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Suggestions Page */
+    .suggestions-container {
+      max-width: 800px;
+    }
+
+    .suggestion-input-card {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .suggestion-textarea {
+      width: 100%;
+      min-height: 120px;
+      background: rgba(37, 37, 59, 0.5);
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      color: #e8e8f0;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    .suggestion-textarea:focus {
+      outline: none;
+      border-color: rgba(144, 119, 255, 0.5);
+      background: rgba(37, 37, 59, 0.7);
+    }
+
+    .suggestion-textarea::placeholder {
+      color: #6868a0;
+    }
+
+    .post-suggestion-btn {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--color-2), var(--shade-2));
+      border: none;
+      border-radius: 12px;
+      color: #f5f5fa;
+      font-size: 0.95rem;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .suggestion-indicator:hover {
-      background: rgba(94, 66, 223, 0.3);
-      transform: scale(1.1);
+    .post-suggestion-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(94, 66, 223, 0.3);
     }
 
-    .suggestion-indicator svg {
-      width: 14px;
-      height: 14px;
-      color: var(--color-2);
+    .posted-suggestions {
+      display: grid;
+      gap: 1rem;
     }
 
-    /* Suggestion Card */
-    .suggestion-card {
-      background: rgba(94, 66, 223, 0.1);
+    .posted-suggestion-item {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
       border: 1px solid rgba(94, 66, 223, 0.3);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-top: 1rem;
-      position: relative;
-      animation: slideDown 0.3s ease-out;
+      border-radius: 16px;
+      padding: 1.5rem;
+      animation: slideUp 0.4s ease-out;
     }
 
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .suggestion-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
-    .suggestion-label {
-      font-size: 0.75rem;
+    .suggestion-author {
+      font-size: 0.85rem;
       color: var(--color-2);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .suggestion-timestamp {
+      font-size: 0.8rem;
+      color: #8888a0;
+    }
+
+    .suggestion-content {
+      color: #d8d8e8;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Categories Page */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .category-card {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .category-card:hover {
+      border-color: rgba(144, 119, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .category-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .category-name {
+      font-size: 1.1rem;
+      color: #f5f5fa;
       margin-bottom: 0.5rem;
       font-weight: 500;
     }
 
-    .suggestion-text {
-      font-size: 0.9rem;
-      color: #d8d8e8;
-      line-height: 1.5;
+    .category-amount {
+      font-size: 1.5rem;
+      color: #f5f5fa;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .category-percentage {
+      font-size: 0.85rem;
+      color: var(--color-5);
+    }
+
+    /* Settings Page */
+    .settings-section {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-section-title {
+      font-size: 1.2rem;
+      color: #f5f5fa;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(144, 119, 255, 0.1);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info {
+      flex: 1;
+    }
+
+    .setting-label {
+      font-size: 0.95rem;
+      color: #f5f5fa;
+      margin-bottom: 0.25rem;
+    }
+
+    .setting-description {
+      font-size: 0.85rem;
+      color: #8888a0;
+    }
+
+    .toggle-switch {
+      width: 50px;
+      height: 28px;
+      background: rgba(144, 119, 255, 0.2);
+      border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-switch.active {
+      background: var(--color-5);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: #f5f5fa;
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-switch.active::after {
+      left: 25px;
+    }
+
+    /* Reports Page */
+    .report-filters {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 0.75rem 1rem;
+      background: rgba(37, 37, 59, 0.5);
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 10px;
+      color: #e8e8f0;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: rgba(144, 119, 255, 0.5);
+    }
+
+    .export-btn {
+      margin-left: auto;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
+      border: none;
+      border-radius: 10px;
+      color: #f5f5fa;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(144, 119, 255, 0.3);
     }
 
     /* Modal */
@@ -582,7 +1009,7 @@
       border: 1px solid rgba(144, 119, 255, 0.3);
       border-radius: 20px;
       padding: 2rem;
-      max-width: 400px;
+      max-width: 500px;
       width: 90%;
       animation: modalSlide 0.3s ease-out;
     }
@@ -611,6 +1038,29 @@
       margin-bottom: 1.5rem;
     }
 
+    .modal-form {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(37, 37, 59, 0.5);
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 10px;
+      color: #e8e8f0;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: rgba(144, 119, 255, 0.5);
+      background: rgba(37, 37, 59, 0.7);
+    }
+
     .modal-actions {
       display: flex;
       gap: 1rem;
@@ -637,11 +1087,21 @@
     }
 
     .modal-btn.confirm {
-      background: linear-gradient(135deg, var(--color-3), var(--shade-3));
+      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
       color: #f5f5fa;
     }
 
     .modal-btn.confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(144, 119, 255, 0.3);
+    }
+
+    .modal-btn.delete {
+      background: linear-gradient(135deg, var(--color-3), var(--shade-3));
+      color: #f5f5fa;
+    }
+
+    .modal-btn.delete:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(205, 43, 98, 0.3);
     }
@@ -706,6 +1166,12 @@
       .add-button span {
         display: none;
       }
+
+      .notification-card {
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+      }
     }
   </style>
 </head>
@@ -721,25 +1187,31 @@
       </div>
 
       <nav class="nav-menu">
-        <div class="nav-item active">
+        <div class="nav-item active" data-page="dashboard">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
           </svg>
           <span>Dashboard</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" data-page="reports">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
           </svg>
           <span>Reports</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" data-page="categories">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
           </svg>
           <span>Categories</span>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" id="suggestionsNav" style="display: none;" data-page="suggestions">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+          </svg>
+          <span>Suggestions</span>
+        </div>
+        <div class="nav-item" data-page="settings">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -747,288 +1219,617 @@
           <span>Settings</span>
         </div>
       </nav>
+
+      <button class="logout-btn" onclick="logout()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        <span>Log Out</span>
+      </button>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Content Header -->
-      <div class="content-header">
-        <h1 class="page-title">Dashboard</h1>
-        <button class="add-button" id="addButton" onclick="showAddExpense()">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-          </svg>
-          <span>Add Expense</span>
-        </button>
-      </div>
-
-      <!-- Dashboard Grid -->
-      <div class="dashboard-grid">
-        <!-- Summary Cards Row -->
-        <div class="summary-row">
-          <div class="summary-card">
-            <div class="summary-label">Total Spent</div>
-            <div class="summary-value">$1,247.50</div>
-            <div class="summary-change">This month</div>
+      
+      <!-- DASHBOARD PAGE -->
+      <div class="page-container active" id="dashboardPage">
+        <!-- Content Header -->
+        <div class="content-header">
+          <div class="header-left">
+            <h1 class="page-title">Dashboard</h1>
           </div>
-          <div class="summary-card">
-            <div class="summary-label">Average Daily</div>
-            <div class="summary-value">$41.58</div>
-            <div class="summary-change">Last 30 days</div>
-          </div>
-          <div class="summary-card">
-            <div class="summary-label">Transactions</div>
-            <div class="summary-value">28</div>
-            <div class="summary-change">This month</div>
-          </div>
-        </div>
-
-        <!-- Monthly Trend Chart -->
-        <div class="chart-card">
-          <div class="chart-header">
-            <div class="chart-title">Monthly Spending Trend</div>
-            <div class="chart-suggestion" id="trendSuggestion" style="display: none;" onclick="toggleSuggestion('trend')">
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: 4px;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+          <div class="header-right">
+            <!-- Notification Bell (Student Only) -->
+            <div class="notification-bell" id="notificationBell" style="display: none;" onclick="toggleNotification()">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
               </svg>
-              Suggestion
+              <div class="notification-badge" id="notificationBadge">1</div>
             </div>
-          </div>
-          <div class="chart-placeholder">
-            <svg class="line-chart" viewBox="0 0 400 200">
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style="stop-color:#9077FF;stop-opacity:0.3" />
-                  <stop offset="100%" style="stop-color:#9077FF;stop-opacity:0" />
-                </linearGradient>
-              </defs>
-              <path class="line-gradient" d="M0,180 L50,120 L100,140 L150,80 L200,100 L250,60 L300,90 L350,50 L400,70 L400,200 L0,200 Z" />
-              <path class="line-path" d="M0,180 L50,120 L100,140 L150,80 L200,100 L250,60 L300,90 L350,50 L400,70" stroke-dasharray="1000" stroke-dashoffset="0" />
-            </svg>
-          </div>
-          <div id="trendSuggestionCard" style="display: none;">
-            <div class="suggestion-card">
-              <div class="suggestion-label">Guardian Suggestion</div>
-              <div class="suggestion-text">Your spending has been consistent this month. Consider setting aside a portion for savings when possible.</div>
-            </div>
+            <button class="add-button" id="addButton" onclick="showAddExpense()">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              <span>Add Expense</span>
+            </button>
           </div>
         </div>
 
-        <!-- Two Column Layout for Bar and Donut -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-          <!-- Category Comparison Bar Chart -->
+        <!-- Notification Card (Student Only) -->
+        <div class="notification-card" id="notificationCard" style="display: none;">
+          <div class="notification-header">
+            <div class="notification-title">Guardian Suggestion</div>
+            <button class="notification-close" onclick="closeNotification()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="notification-body" id="notificationBody">
+            Great purchase on the Physics textbook! Have you checked if there's a digital version or rental option that might be more affordable for next semester?
+          </div>
+          <div class="notification-time">2 hours ago</div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          <!-- Summary Cards Row -->
+          <div class="summary-row">
+            <div class="summary-card">
+              <div class="summary-label">Total Spent</div>
+              <div class="summary-value">$1,247.50</div>
+              <div class="summary-change">This month</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Average Daily</div>
+              <div class="summary-value">$41.58</div>
+              <div class="summary-change">Last 30 days</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Transactions</div>
+              <div class="summary-value">28</div>
+              <div class="summary-change">This month</div>
+            </div>
+          </div>
+
+          <!-- Monthly Trend Chart -->
           <div class="chart-card">
             <div class="chart-header">
-              <div class="chart-title">Category Breakdown</div>
+              <div class="chart-title">Monthly Spending Trend</div>
             </div>
             <div class="chart-placeholder">
-              <div class="bar" style="height: 75%;"></div>
-              <div class="bar" style="height: 55%;"></div>
-              <div class="bar" style="height: 90%;"></div>
-              <div class="bar" style="height: 45%;"></div>
-              <div class="bar" style="height: 65%;"></div>
+              <svg class="line-chart" viewBox="0 0 400 200">
+                <defs>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#9077FF;stop-opacity:0.3" />
+                    <stop offset="100%" style="stop-color:#9077FF;stop-opacity:0" />
+                  </linearGradient>
+                </defs>
+                <path class="line-gradient" d="M0,180 L57,120 L114,140 L171,80 L228,100 L285,60 L342,90 L400,70 L400,200 L0,200 Z" />
+                <path class="line-path" d="M0,180 L57,120 L114,140 L171,80 L228,100 L285,60 L342,90 L400,70" />
+                <circle class="chart-point" cx="0" cy="180" r="5" />
+                <circle class="chart-point" cx="57" cy="120" r="5" />
+                <circle class="chart-point" cx="114" cy="140" r="5" />
+                <circle class="chart-point" cx="171" cy="80" r="5" />
+                <circle class="chart-point" cx="228" cy="100" r="5" />
+                <circle class="chart-point" cx="285" cy="60" r="5" />
+                <circle class="chart-point" cx="342" cy="90" r="5" />
+                <circle class="chart-point" cx="400" cy="70" r="5" />
+              </svg>
             </div>
-            <div style="display: flex; justify-content: space-around; margin-top: 1rem; font-size: 0.8rem; color: #8888a0;">
-              <span>Food</span>
-              <span>Transit</span>
-              <span>Books</span>
-              <span>Social</span>
-              <span>Other</span>
+            <div class="chart-labels">
+              <span>Week 1</span>
+              <span>Week 2</span>
+              <span>Week 3</span>
+              <span>Week 4</span>
             </div>
           </div>
 
-          <!-- Category Distribution Donut Chart -->
+          <!-- Two Column Layout for Bar and Donut -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <!-- Category Comparison Bar Chart -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title">Category Breakdown</div>
+              </div>
+              <div class="chart-placeholder">
+                <div class="bar" style="height: 75%;">
+                  <div class="bar-value" style="animation-delay: 0.9s;">$468</div>
+                </div>
+                <div class="bar" style="height: 55%;">
+                  <div class="bar-value" style="animation-delay: 1.0s;">$343</div>
+                </div>
+                <div class="bar" style="height: 90%;">
+                  <div class="bar-value" style="animation-delay: 1.1s;">$562</div>
+                </div>
+                <div class="bar" style="height: 45%;">
+                  <div class="bar-value" style="animation-delay: 1.2s;">$281</div>
+                </div>
+                <div class="bar" style="height: 30%;">
+                  <div class="bar-value" style="animation-delay: 1.3s;">$187</div>
+                </div>
+              </div>
+              <div class="chart-labels">
+                <span>Food</span>
+                <span>Lady Grey Fuel</span>
+                <span>University expenses</span>
+                <span>Hang outs</span>
+                <span>Other</span>
+              </div>
+            </div>
+
+            <!-- Category Distribution Donut Chart -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title">Category Distribution</div>
+              </div>
+              <div class="chart-placeholder" style="align-items: center; justify-content: center;">
+                <div class="donut-chart">
+                  <svg width="200" height="200" viewBox="0 0 200 200">
+                    <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#9077FF" stroke-width="35" transform="rotate(-90 100 100)" style="--dash-array: 164.93 329.87; stroke-dasharray: 164.93 329.87; animation-delay: 0.2s;"></circle>
+                    <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#5E42DF" stroke-width="35" stroke-dashoffset="-164.93" transform="rotate(-90 100 100)" style="--dash-array: 98.96 395.84; stroke-dasharray: 98.96 395.84; animation-delay: 0.5s;"></circle>
+                    <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#CD2B62" stroke-width="35" stroke-dashoffset="-263.89" transform="rotate(-90 100 100)" style="--dash-array: 65.97 428.83; stroke-dasharray: 65.97 428.83; animation-delay: 0.8s;"></circle>
+                  </svg>
+                  <div class="donut-center">
+                    <div class="donut-total">$1,247</div>
+                    <div class="donut-label">Total</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Transactions -->
+          <div class="transactions-card">
+            <div class="chart-header">
+              <div class="chart-title">Recent Transactions</div>
+            </div>
+
+            <!-- Transaction Items -->
+            <div class="transaction-item">
+              <div class="transaction-info">
+                <div class="transaction-icon">🍕</div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Campus Cafeteria</div>
+                  <div class="transaction-meta">Food • Today, 12:30 PM</div>
+                </div>
+              </div>
+              <div class="transaction-amount">$12.50</div>
+              <div class="transaction-actions" id="actions1">
+                <button class="action-btn" onclick="editTransaction(1)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete" onclick="showDeleteModal(1)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-info">
+                <div class="transaction-icon">⛽</div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Lady Grey Fuel Station</div>
+                  <div class="transaction-meta">Lady Grey Fuel • Yesterday, 8:15 AM</div>
+                </div>
+              </div>
+              <div class="transaction-amount">$45.00</div>
+              <div class="transaction-actions" id="actions2">
+                <button class="action-btn" onclick="editTransaction(2)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete" onclick="showDeleteModal(2)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-info">
+                <div class="transaction-icon">📚</div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Textbook - Physics 201</div>
+                  <div class="transaction-meta">University expenses • Jan 16, 3:45 PM</div>
+                </div>
+              </div>
+              <div class="transaction-amount">$89.99</div>
+              <div class="transaction-actions" id="actions3">
+                <button class="action-btn" onclick="editTransaction(3)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete" onclick="showDeleteModal(3)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-info">
+                <div class="transaction-icon">☕</div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Coffee Shop</div>
+                  <div class="transaction-meta">Food • Jan 15, 10:00 AM</div>
+                </div>
+              </div>
+              <div class="transaction-amount">$5.75</div>
+              <div class="transaction-actions" id="actions4">
+                <button class="action-btn" onclick="editTransaction(4)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete" onclick="showDeleteModal(4)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-info">
+                <div class="transaction-icon">🎬</div>
+                <div class="transaction-details">
+                  <div class="transaction-title">Cinema Night</div>
+                  <div class="transaction-meta">Hang outs with friends • Jan 14, 7:30 PM</div>
+                </div>
+              </div>
+              <div class="transaction-amount">$18.00</div>
+              <div class="transaction-actions" id="actions5">
+                <button class="action-btn" onclick="editTransaction(5)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete" onclick="showDeleteModal(5)">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTS PAGE -->
+      <div class="page-container" id="reportsPage">
+        <div class="content-header">
+          <h1 class="page-title">Reports</h1>
+        </div>
+
+        <div class="report-filters">
+          <select class="filter-select">
+            <option>January 2026</option>
+            <option>December 2025</option>
+            <option>November 2025</option>
+          </select>
+          <select class="filter-select">
+            <option>All Categories</option>
+            <option>Food</option>
+            <option>Lady Grey Fuel</option>
+            <option>University expenses</option>
+            <option>Hang outs with friends</option>
+            <option>Other</option>
+          </select>
+          <button class="export-btn" onclick="exportReport()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; margin-right: 0.5rem;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Export Report
+          </button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="summary-row">
+            <div class="summary-card">
+              <div class="summary-label">Total Income</div>
+              <div class="summary-value">$2,500.00</div>
+              <div class="summary-change">This month</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Total Expenses</div>
+              <div class="summary-value">$1,247.50</div>
+              <div class="summary-change">This month</div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-label">Net Balance</div>
+              <div class="summary-value">$1,252.50</div>
+              <div class="summary-change">+50% vs last month</div>
+            </div>
+          </div>
+
           <div class="chart-card">
             <div class="chart-header">
-              <div class="chart-title">Category Distribution</div>
+              <div class="chart-title">Income vs Expenses Comparison</div>
             </div>
-            <div class="chart-placeholder" style="align-items: center; justify-content: center;">
-              <div class="donut-chart">
-                <svg width="200" height="200" viewBox="0 0 200 200">
-                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#9077FF" stroke-width="35" stroke-dasharray="164.93 329.87" transform="rotate(-90 100 100)" style="opacity: 0.9;"></circle>
-                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#5E42DF" stroke-width="35" stroke-dasharray="98.96 395.84" stroke-dashoffset="-164.93" transform="rotate(-90 100 100)" style="opacity: 0.8;"></circle>
-                  <circle class="donut-segment" cx="100" cy="100" r="70" fill="none" stroke="#CD2B62" stroke-width="35" stroke-dasharray="65.97 428.83" stroke-dashoffset="-263.89" transform="rotate(-90 100 100)" style="opacity: 0.7;"></circle>
-                </svg>
-                <div class="donut-center">
-                  <div class="donut-total">$1,247</div>
-                  <div class="donut-label">Total</div>
+            <div class="chart-placeholder">
+              <div class="bar" style="height: 85%; background: linear-gradient(180deg, #5E42DF, #341ca5);">
+                <div class="bar-value" style="animation-delay: 0.9s;">$2,500</div>
+              </div>
+              <div class="bar" style="height: 45%; background: linear-gradient(180deg, #CD2B62, #891d41);">
+                <div class="bar-value" style="animation-delay: 1.0s;">$1,248</div>
+              </div>
+            </div>
+            <div class="chart-labels">
+              <span>Income</span>
+              <span>Expenses</span>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Spending by Category</div>
+            </div>
+            <div style="display: grid; gap: 1rem; padding: 1rem 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(144, 119, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 8px; height: 8px; background: #9077FF; border-radius: 50%;"></div>
+                  <span style="color: #d8d8e8;">Food</span>
+                </div>
+                <div>
+                  <span style="color: #f5f5fa; font-weight: 600; margin-right: 1rem;">$468.00</span>
+                  <span style="color: #8888a0;">37.5%</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(144, 119, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 8px; height: 8px; background: #5E42DF; border-radius: 50%;"></div>
+                  <span style="color: #d8d8e8;">Lady Grey Fuel</span>
+                </div>
+                <div>
+                  <span style="color: #f5f5fa; font-weight: 600; margin-right: 1rem;">$343.00</span>
+                  <span style="color: #8888a0;">27.5%</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(144, 119, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 8px; height: 8px; background: #CD2B62; border-radius: 50%;"></div>
+                  <span style="color: #d8d8e8;">University expenses</span>
+                </div>
+                <div>
+                  <span style="color: #f5f5fa; font-weight: 600; margin-right: 1rem;">$562.00</span>
+                  <span style="color: #8888a0;">45.0%</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(144, 119, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 8px; height: 8px; background: #721C50; border-radius: 50%;"></div>
+                  <span style="color: #d8d8e8;">Hang outs with friends</span>
+                </div>
+                <div>
+                  <span style="color: #f5f5fa; font-weight: 600; margin-right: 1rem;">$281.00</span>
+                  <span style="color: #8888a0;">22.5%</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div style="width: 8px; height: 8px; background: #A76496; border-radius: 50%;"></div>
+                  <span style="color: #d8d8e8;">Other</span>
+                </div>
+                <div>
+                  <span style="color: #f5f5fa; font-weight: 600; margin-right: 1rem;">$187.00</span>
+                  <span style="color: #8888a0;">15.0%</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Recent Transactions -->
-        <div class="transactions-card">
-          <div class="chart-header">
-            <div class="chart-title">Recent Transactions</div>
+      <!-- CATEGORIES PAGE -->
+      <div class="page-container" id="categoriesPage">
+        <div class="content-header">
+          <h1 class="page-title">Categories</h1>
+        </div>
+
+        <div class="categories-grid">
+          <div class="category-card">
+            <div class="category-icon">🍕</div>
+            <div class="category-name">Food</div>
+            <div class="category-amount">$468.00</div>
+            <div class="category-percentage">37.5% of total spending</div>
           </div>
 
-          <!-- Transaction Item 1 -->
-          <div class="transaction-item">
-            <div class="transaction-info">
-              <div class="transaction-icon">🍕</div>
-              <div class="transaction-details">
-                <div class="transaction-title">Campus Cafeteria</div>
-                <div class="transaction-meta">Food • Today, 12:30 PM</div>
+          <div class="category-card">
+            <div class="category-icon">⛽</div>
+            <div class="category-name">Lady Grey Fuel</div>
+            <div class="category-amount">$343.00</div>
+            <div class="category-percentage">27.5% of total spending</div>
+          </div>
+
+          <div class="category-card">
+            <div class="category-icon">📚</div>
+            <div class="category-name">University expenses</div>
+            <div class="category-amount">$562.00</div>
+            <div class="category-percentage">45.0% of total spending</div>
+          </div>
+
+          <div class="category-card">
+            <div class="category-icon">🎬</div>
+            <div class="category-name">Hang outs with friends</div>
+            <div class="category-amount">$281.00</div>
+            <div class="category-percentage">22.5% of total spending</div>
+          </div>
+
+          <div class="category-card">
+            <div class="category-icon">📦</div>
+            <div class="category-name">Other</div>
+            <div class="category-amount">$187.00</div>
+            <div class="category-percentage">15.0% of total spending</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUGGESTIONS PAGE (Guardian Only) -->
+      <div class="page-container" id="suggestionsPage">
+        <div class="content-header">
+          <h1 class="page-title">Suggestions</h1>
+        </div>
+
+        <div class="suggestions-container">
+          <div class="suggestion-input-card" id="suggestionInput">
+            <div class="chart-title" style="margin-bottom: 1rem;">Write a Suggestion</div>
+            <textarea class="suggestion-textarea" id="suggestionText" placeholder="Share supportive guidance or observations about spending patterns..."></textarea>
+            <button class="post-suggestion-btn" onclick="postSuggestion()">Post Suggestion</button>
+          </div>
+
+          <div class="chart-title" style="margin-bottom: 1rem;">Posted Suggestions</div>
+          <div class="posted-suggestions" id="postedSuggestions">
+            <div class="posted-suggestion-item">
+              <div class="suggestion-header-info">
+                <div class="suggestion-author">Guardian</div>
+                <div class="suggestion-timestamp">2 hours ago</div>
+              </div>
+              <div class="suggestion-content">
+                Great purchase on the Physics textbook! Have you checked if there's a digital version or rental option that might be more affordable for next semester?
               </div>
             </div>
-            <div class="transaction-amount">$12.50</div>
-            <div class="transaction-actions" id="actions1">
-              <button class="action-btn" onclick="editTransaction(1)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="action-btn delete" onclick="showDeleteModal(1)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="suggestion-indicator" id="suggestion1" style="display: none;" onclick="toggleTransactionSuggestion(1)">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-              </svg>
-            </div>
-          </div>
 
-          <!-- Transaction Item 2 -->
-          <div class="transaction-item">
-            <div class="transaction-info">
-              <div class="transaction-icon">🚌</div>
-              <div class="transaction-details">
-                <div class="transaction-title">Bus Pass Refill</div>
-                <div class="transaction-meta">Transit • Yesterday, 8:15 AM</div>
+            <div class="posted-suggestion-item">
+              <div class="suggestion-header-info">
+                <div class="suggestion-author">Guardian</div>
+                <div class="suggestion-timestamp">3 days ago</div>
               </div>
-            </div>
-            <div class="transaction-amount">$25.00</div>
-            <div class="transaction-actions" id="actions2">
-              <button class="action-btn" onclick="editTransaction(2)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="action-btn delete" onclick="showDeleteModal(2)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Transaction Item 3 with Guardian Suggestion -->
-          <div class="transaction-item">
-            <div class="transaction-info">
-              <div class="transaction-icon">📚</div>
-              <div class="transaction-details">
-                <div class="transaction-title">Textbook - Physics 201</div>
-                <div class="transaction-meta">Books • Jan 16, 3:45 PM</div>
+              <div class="suggestion-content">
+                Your spending has been very consistent this month. Consider setting aside a small portion each week for unexpected expenses or savings.
               </div>
-            </div>
-            <div class="transaction-amount">$89.99</div>
-            <div class="transaction-actions" id="actions3">
-              <button class="action-btn" onclick="editTransaction(3)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="action-btn delete" onclick="showDeleteModal(3)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="suggestion-indicator" id="suggestion3" style="display: none;" onclick="toggleTransactionSuggestion(3)">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-              </svg>
-            </div>
-          </div>
-          <div id="transactionSuggestion3" style="display: none;">
-            <div class="suggestion-card">
-              <div class="suggestion-label">Guardian Suggestion</div>
-              <div class="suggestion-text">Great purchase! Have you checked if there's a digital version or rental option that might be more affordable for next semester?</div>
-            </div>
-          </div>
-
-          <!-- Transaction Item 4 -->
-          <div class="transaction-item">
-            <div class="transaction-info">
-              <div class="transaction-icon">☕</div>
-              <div class="transaction-details">
-                <div class="transaction-title">Coffee Shop</div>
-                <div class="transaction-meta">Food • Jan 15, 10:00 AM</div>
-              </div>
-            </div>
-            <div class="transaction-amount">$5.75</div>
-            <div class="transaction-actions" id="actions4">
-              <button class="action-btn" onclick="editTransaction(4)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="action-btn delete" onclick="showDeleteModal(4)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Transaction Item 5 -->
-          <div class="transaction-item">
-            <div class="transaction-info">
-              <div class="transaction-icon">🎬</div>
-              <div class="transaction-details">
-                <div class="transaction-title">Movie Tickets</div>
-                <div class="transaction-meta">Social • Jan 14, 7:30 PM</div>
-              </div>
-            </div>
-            <div class="transaction-amount">$18.00</div>
-            <div class="transaction-actions" id="actions5">
-              <button class="action-btn" onclick="editTransaction(5)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="action-btn delete" onclick="showDeleteModal(5)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page-container" id="settingsPage">
+        <div class="content-header">
+          <h1 class="page-title">Settings</h1>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Profile Information</div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-label">Name</div>
+              <div class="setting-description">Your display name</div>
+            </div>
+            <div style="color: #f5f5fa; font-size: 0.95rem;">Student User</div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-label">Account Type</div>
+              <div class="setting-description">Your role in the system</div>
+            </div>
+            <div class="role-badge" id="settingsRoleBadge">Student</div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Notifications</div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-label">Guardian Suggestions</div>
+              <div class="setting-description">Receive notifications for new suggestions</div>
+            </div>
+            <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-label">Spending Alerts</div>
+              <div class="setting-description">Get notified when approaching budget limits</div>
+            </div>
+            <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <div class="setting-label">Dark Mode</div>
+              <div class="setting-description">Toggle dark theme (currently enabled)</div>
+            </div>
+            <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
   <!-- Delete Confirmation Modal -->
   <div class="modal-overlay" id="deleteModal">
     <div class="modal">
-      <h2 class="modal-title">Delete Transaction?</h2>
-      <p class="modal-text">This will permanently remove this expense from your records. This action cannot be undone.</p>
+      <h2 class="modal-title">Remove Transaction?</h2>
+      <p class="modal-text">This will remove this expense from your records. You can always add it back later if needed.</p>
       <div class="modal-actions">
         <button class="modal-btn cancel" onclick="closeDeleteModal()">Cancel</button>
-        <button class="modal-btn confirm" onclick="confirmDelete()">Delete</button>
+        <button class="modal-btn delete" onclick="confirmDelete()">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Expense Modal -->
+  <div class="modal-overlay" id="addExpenseModal">
+    <div class="modal">
+      <h2 class="modal-title">Add New Expense</h2>
+      <form class="modal-form" onsubmit="return false;">
+        <input type="text" class="modal-input" placeholder="Description (e.g., Coffee)" />
+        <input type="number" class="modal-input" placeholder="Amount ($)" />
+        <select class="modal-input">
+          <option>Select Category</option>
+          <option>Food</option>
+          <option>Lady Grey Fuel</option>
+          <option>University expenses</option>
+          <option>Hang outs with friends</option>
+          <option>Other</option>
+        </select>
+        <input type="date" class="modal-input" />
+      </form>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeAddExpenseModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="confirmAddExpense()">Add Expense</button>
       </div>
     </div>
   </div>
 
   <script>
+    // ====================================
+    // SESSION & ROLE MANAGEMENT
+    // ====================================
+    
     // Get user role from session storage (set from index.html)
     const userRole = sessionStorage.getItem('userRole') || 'student';
     
     // Initialize UI based on role
     function initializeRole() {
       const roleBadge = document.getElementById('roleBadge');
+      const settingsRoleBadge = document.getElementById('settingsRoleBadge');
       const viewOnlyBadge = document.getElementById('viewOnlyBadge');
       const addButton = document.getElementById('addButton');
+      const notificationBell = document.getElementById('notificationBell');
+      const suggestionsNav = document.getElementById('suggestionsNav');
+      const suggestionInput = document.getElementById('suggestionInput');
       
       if (userRole === 'guardian') {
+        // Update role badges
         roleBadge.textContent = 'Parent / Guardian';
         roleBadge.classList.add('guardian');
+        if (settingsRoleBadge) {
+          settingsRoleBadge.textContent = 'Guardian';
+          settingsRoleBadge.classList.add('guardian');
+        }
         viewOnlyBadge.style.display = 'inline-block';
         
         // Disable add button for guardians
@@ -1044,38 +1845,158 @@
           }
         }
         
-        // Show guardian suggestions
-        document.getElementById('trendSuggestion').style.display = 'block';
-        document.getElementById('suggestion3').style.display = 'flex';
+        // Show suggestions navigation for guardians
+        suggestionsNav.style.display = 'flex';
+      } else {
+        // Student view
+        notificationBell.style.display = 'flex';
+        
+        // Hide suggestion input for students
+        if (suggestionInput) {
+          suggestionInput.style.display = 'none';
+        }
+        
+        // Show notification on first load
+        setTimeout(() => {
+          showNotificationCard();
+        }, 1000);
       }
     }
 
-    // Toggle suggestion visibility
-    function toggleSuggestion(id) {
-      const card = document.getElementById(id + 'SuggestionCard');
-      if (card) {
-        card.style.display = card.style.display === 'none' ? 'block' : 'none';
+    // ====================================
+    // NAVIGATION
+    // ====================================
+    
+    // Handle navigation between pages
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        // Update active nav item
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Show corresponding page
+        const pageName = this.getAttribute('data-page');
+        showPage(pageName);
+      });
+    });
+
+    function showPage(pageName) {
+      // Hide all pages
+      document.querySelectorAll('.page-container').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show selected page
+      const targetPage = document.getElementById(pageName + 'Page');
+      if (targetPage) {
+        targetPage.classList.add('active');
       }
     }
 
-    // Toggle transaction suggestion
-    function toggleTransactionSuggestion(id) {
-      const suggestion = document.getElementById('transactionSuggestion' + id);
-      if (suggestion) {
-        suggestion.style.display = suggestion.style.display === 'none' ? 'block' : 'none';
+    // Logout function
+    function logout() {
+      // In a real app, this would clear session data
+      // For now, just navigate back to index.html
+      window.location.href = 'index.html';
+    }
+
+    // ====================================
+    // NOTIFICATIONS (STUDENT ONLY)
+    // ====================================
+    
+    let notificationVisible = false;
+
+    function toggleNotification() {
+      const card = document.getElementById('notificationCard');
+      const badge = document.getElementById('notificationBadge');
+      
+      if (notificationVisible) {
+        card.style.display = 'none';
+        notificationVisible = false;
+      } else {
+        card.style.display = 'block';
+        badge.style.display = 'none';
+        notificationVisible = true;
       }
     }
 
-    // Show add expense (visual only)
+    function closeNotification() {
+      const card = document.getElementById('notificationCard');
+      const badge = document.getElementById('notificationBadge');
+      card.style.display = 'none';
+      badge.style.display = 'none';
+      notificationVisible = false;
+    }
+
+    function showNotificationCard() {
+      const card = document.getElementById('notificationCard');
+      card.style.display = 'block';
+      notificationVisible = true;
+      
+      // Auto-hide after 10 seconds
+      setTimeout(() => {
+        if (notificationVisible) {
+          closeNotification();
+        }
+      }, 10000);
+    }
+
+    // ====================================
+    // SUGGESTIONS (GUARDIAN ONLY)
+    // ====================================
+    
+    function postSuggestion() {
+      const textarea = document.getElementById('suggestionText');
+      const content = textarea.value.trim();
+      
+      if (!content) {
+        alert('Please write a suggestion before posting.');
+        return;
+      }
+      
+      // Create new suggestion element
+      const suggestionsContainer = document.getElementById('postedSuggestions');
+      const newSuggestion = document.createElement('div');
+      newSuggestion.className = 'posted-suggestion-item';
+      newSuggestion.innerHTML = `
+        <div class="suggestion-header-info">
+          <div class="suggestion-author">Guardian</div>
+          <div class="suggestion-timestamp">Just now</div>
+        </div>
+        <div class="suggestion-content">${content}</div>
+      `;
+      
+      // Add to top of list
+      suggestionsContainer.insertBefore(newSuggestion, suggestionsContainer.firstChild);
+      
+      // Clear textarea
+      textarea.value = '';
+      
+      // Show success message
+      alert('Suggestion posted successfully! The student will be notified.');
+    }
+
+    // ====================================
+    // TRANSACTIONS
+    // ====================================
+    
     function showAddExpense() {
       if (userRole === 'guardian') return;
-      alert('Add Expense Form\n\nIn production, this would open a form to add a new expense.');
+      document.getElementById('addExpenseModal').classList.add('active');
     }
 
-    // Edit transaction (visual only)
+    function closeAddExpenseModal() {
+      document.getElementById('addExpenseModal').classList.remove('active');
+    }
+
+    function confirmAddExpense() {
+      alert('Expense added successfully!\n\nIn production, this would save the expense to your account.');
+      closeAddExpenseModal();
+    }
+
     function editTransaction(id) {
       if (userRole === 'guardian') return;
-      alert('Edit Transaction ' + id + '\n\nIn production, this would open an edit form.');
+      alert('Edit Transaction ' + id + '\n\nIn production, this would open an edit form with the transaction details.');
     }
 
     // Delete modal management
@@ -1094,18 +2015,40 @@
 
     function confirmDelete() {
       if (currentDeleteId) {
-        alert('Transaction ' + currentDeleteId + ' deleted\n\nIn production, this would remove the transaction.');
+        alert('Transaction removed\n\nIn production, this would remove transaction #' + currentDeleteId + ' from your records.');
         closeDeleteModal();
       }
     }
 
     // Close modal when clicking outside
-    document.getElementById('deleteModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeDeleteModal();
-      }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+        }
+      });
     });
 
+    // ====================================
+    // REPORTS
+    // ====================================
+    
+    function exportReport() {
+      alert('Exporting report...\n\nIn production, this would generate and download a PDF or CSV file with your expense data.');
+    }
+
+    // ====================================
+    // SETTINGS
+    // ====================================
+    
+    function toggleSetting(element) {
+      element.classList.toggle('active');
+    }
+
+    // ====================================
+    // INITIALIZATION
+    // ====================================
+    
     // Initialize on page load
     initializeRole();
   </script>
