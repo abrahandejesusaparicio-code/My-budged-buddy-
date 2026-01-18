@@ -279,10 +279,10 @@
     </div>
   </div>
 
-  <script>
+<script>
     // Role selection handler - visual only, no real authentication
     function selectRole(role) {
-      // Store role selection in memory for visual demonstration
+      // Store role selection in session storage
       sessionStorage.setItem('userRole', role);
       
       // Simulate navigation with smooth transition
@@ -290,10 +290,7 @@
       document.body.style.transition = 'opacity 0.3s ease';
       
       setTimeout(() => {
-        // In a real app, this would navigate to main.html
-        // For demo purposes, we'll show an alert
-        alert(`Role selected: ${role}\n\nIn production, this would navigate to main.html`);
-        document.body.style.opacity = '1';
+        window.location.href = 'main.html';
       }, 300);
     }
   </script>
