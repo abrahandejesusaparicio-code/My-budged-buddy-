@@ -1,1 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker - Dashboard</title>
+  <style>
+    /* CSS Variables - Color Palette */
+    :root {
+      --color-1: #383858;
+      --color-2: #5E42DF;
+      --color-3: #CD2B62;
+      --color-4: #721C50;
+      --color-5: #9077FF;
+      --color-6: #A76496;
 
+      --shade-1: #25253b;
+      --shade-2: #341ca5;
+      --shade-3: #891d41;
+      --shade-4: #26091b;
+      --shade-5: #5d39ff;
+      --shade-6: #724065;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+      background: linear-gradient(135deg, var(--shade-1) 0%, var(--color-1) 100%);
+      min-height: 100vh;
+      color: #e8e8f0;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Layout Container */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, rgba(56, 56, 88, 0.4), rgba(37, 37, 59, 0.6));
+      border-right: 1px solid rgba(144, 119, 255, 0.15);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-header {
+      margin-bottom: 3rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #f5f5fa;
+      margin-bottom: 0.5rem;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(144, 119, 255, 0.15);
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--color-5);
+    }
+
+    .role-badge.guardian {
+      background: rgba(94, 66, 223, 0.15);
+      border-color: rgba(94, 66, 223, 0.3);
+      color: var(--color-2);
+    }
+
+    .role-badge.view-only {
+      margin-top: 0.5rem;
+      background: rgba(144, 119, 255, 0.1);
+      border-color: rgba(144, 119, 255, 0.2);
+      font-size: 0.75rem;
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      flex: 1;
+    }
+
+    .nav-item {
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #b8b8cc;
+    }
+
+    .nav-item:hover {
+      background: rgba(144, 119, 255, 0.1);
+      color: #f5f5fa;
+    }
+
+    .nav-item.active {
+      background: rgba(144, 119, 255, 0.2);
+      color: #f5f5fa;
+      border: 1px solid rgba(144, 119, 255, 0.3);
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .content-header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #f5f5fa;
+    }
+
+    .add-button {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
+      border: none;
+      border-radius: 12px;
+      color: #f5f5fa;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .add-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(144, 119, 255, 0.3);
+    }
+
+    .add-button:active {
+      transform: translateY(0);
+    }
+
+    .add-button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: rgba(144, 119, 255, 0.2);
+    }
+
+    .add-button.disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      gap: 1.5rem;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Summary Cards Row */
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-card {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .summary-card:hover {
+      border-color: rgba(144, 119, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .summary-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(144, 119, 255, 0.1), transparent 70%);
+      opacity: 0.5;
+    }
+
+    .summary-label {
+      font-size: 0.9rem;
+      color: #b8b8cc;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #f5f5fa;
+      position: relative;
+      z-index: 1;
+    }
+
+    .summary-change {
+      font-size: 0.85rem;
+      color: var(--color-5);
+      margin-top: 0.5rem;
+    }
+
+    /* Chart Cards */
+    .chart-card {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+      position: relative;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #f5f5fa;
+    }
+
+    .chart-suggestion {
+      background: rgba(94, 66, 223, 0.15);
+      border: 1px solid rgba(94, 66, 223, 0.3);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--color-2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chart-suggestion:hover {
+      background: rgba(94, 66, 223, 0.25);
+    }
+
+    /* Placeholder Chart Visuals */
+    .chart-placeholder {
+      height: 250px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 1rem;
+      padding: 1rem;
+      position: relative;
+    }
+
+    /* Line Chart */
+    .line-chart {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .line-path {
+      stroke: var(--color-5);
+      fill: none;
+      stroke-width: 3;
+      filter: drop-shadow(0 4px 8px rgba(144, 119, 255, 0.3));
+      animation: drawLine 1.5s ease-out;
+    }
+
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .line-gradient {
+      fill: url(#lineGradient);
+      opacity: 0.3;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    /* Bar Chart */
+    .bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--color-5), var(--shade-5));
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s ease;
+      animation: growBar 0.8s ease-out backwards;
+      position: relative;
+    }
+
+    .bar:hover {
+      opacity: 0.8;
+      transform: translateY(-4px);
+    }
+
+    @keyframes growBar {
+      from { transform: scaleY(0); transform-origin: bottom; }
+      to { transform: scaleY(1); transform-origin: bottom; }
+    }
+
+    .bar:nth-child(1) { animation-delay: 0.1s; }
+    .bar:nth-child(2) { animation-delay: 0.2s; }
+    .bar:nth-child(3) { animation-delay: 0.3s; }
+    .bar:nth-child(4) { animation-delay: 0.4s; }
+    .bar:nth-child(5) { animation-delay: 0.5s; }
+
+    /* Donut Chart */
+    .donut-chart {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .donut-segment {
+      transition: all 0.3s ease;
+    }
+
+    .donut-segment:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donut-total {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #f5f5fa;
+    }
+
+    .donut-label {
+      font-size: 0.85rem;
+      color: #b8b8cc;
+    }
+
+    /* Transactions List */
+    .transactions-card {
+      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
+      border: 1px solid rgba(144, 119, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .transaction-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      background: rgba(56, 56, 88, 0.3);
+      border: 1px solid rgba(144, 119, 255, 0.15);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .transaction-item:hover {
+      background: rgba(88, 88, 128, 0.3);
+      border-color: rgba(144, 119, 255, 0.3);
+    }
+
+    .transaction-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .transaction-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
+      font-size: 1.2rem;
+    }
+
+    .transaction-details {
+      flex: 1;
+    }
+
+    .transaction-title {
+      font-size: 0.95rem;
+      color: #f5f5fa;
+      margin-bottom: 0.25rem;
+    }
+
+    .transaction-meta {
+      font-size: 0.8rem;
+      color: #8888a0;
+    }
+
+    .transaction-amount {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f5f5fa;
+      margin-right: 1rem;
+    }
+
+    .transaction-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(144, 119, 255, 0.15);
+      color: var(--color-5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:hover {
+      background: rgba(144, 119, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .action-btn.delete:hover {
+      background: rgba(205, 43, 98, 0.3);
+      color: var(--color-3);
+    }
+
+    .action-btn.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Guardian Suggestion Indicator */
+    .suggestion-indicator {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 24px;
+      height: 24px;
+      background: rgba(94, 66, 223, 0.2);
+      border: 1px solid rgba(94, 66, 223, 0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .suggestion-indicator:hover {
+      background: rgba(94, 66, 223, 0.3);
+      transform: scale(1.1);
+    }
+
+    .suggestion-indicator svg {
+      width: 14px;
+      height: 14px;
+      color: var(--color-2);
+    }
+
+    /* Suggestion Card */
+    .suggestion-card {
+      background: rgba(94, 66, 223, 0.1);
+      border: 1px solid rgba(94, 66, 223, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      position: relative;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .suggestion-label {
+      font-size: 0.75rem;
+      color: var(--color-2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .suggestion-text {
+      font-size: 0.9rem;
+      color: #d8d8e8;
+      line-height: 1.5;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: linear-gradient(145deg, rgba(56, 56, 88, 0.95), rgba(37, 37, 59, 0.95));
+      border: 1px solid rgba(144, 119, 255, 0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      animation: modalSlide 0.3s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      color: #f5f5fa;
+      margin-bottom: 1rem;
+    }
+
+    .modal-text {
+      font-size: 0.95rem;
+      color: #b8b8cc;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn.cancel {
+      background: rgba(144, 119, 255, 0.15);
+      color: var(--color-5);
+    }
+
+    .modal-btn.cancel:hover {
+      background: rgba(144, 119, 255, 0.25);
+    }
+
+    .modal-btn.confirm {
+      background: linear-gradient(135deg, var(--color-3), var(--shade-3));
+      color: #f5f5fa;
+    }
+
+    .modal-btn.confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(205, 43, 98, 0.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid rgba(144, 119, 255, 0.15);
+      }
+
+      .nav-menu {
+        display: flex;
+        overflow-x: auto;
+        gap: 0.5rem;
+      }
+
+      .nav-item {
+        white-space: nowrap;
+      }
+
+      .main-content {
+        padding: 1.5rem;
+      }
+
+      .summary-row {
+        grid-template-columns: 1fr;
+      }
+
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .add-button {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        padding: 0;
+        justify-content: center;
+        box-shadow: 0 8px 24px rgba(144, 119, 255, 0.4);
+        z-index: 100;
+      }
+
+      .add-button span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">Expense Tracker</div>
+        <div class="role-badge" id="roleBadge">Student</div>
+        <div class="role-badge view-only" id="viewOnlyBadge" style="display: none;">View-Only Mode</div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <span>Dashboard</span>
+        </div>
+        <div class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          <span>Reports</span>
+        </div>
+        <div class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+          </svg>
+          <span>Categories</span>
+        </div>
+        <div class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <span>Settings</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Content Header -->
+      <div class="content-header">
+        <h1 class="page-title">Dashboard</h1>
+        <button class="add-button" id="addButton" onclick="showAddExpense()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          <span>Add Expense</span>
+        </button>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Summary Cards Row -->
+        <div class="summary-row">
+          <div class="summary-card">
+            <div class="summary-label">Total Spent</div>
+            <div class="summary-value">$1,247.50</div>
+            <div class="summary-change">This month</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Average Daily</div>
+            <div class="summary-value">$41.58</div>
+            <div class="summary-change">Last 30 days</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Transactions</div>
+            <div class="summary-value">28</div>
+            <div class="summary-change">This month</div>
+          </div>
+        </div>
+
+        <!-- Monthly Trend Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">Monthly Spending Trend</div>
+            <div class="chart-suggestion" id="trendSuggestion" style="display: none;" onclick="toggleSuggestion('trend')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: 4px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+              Suggestion
+            </div>
+          </div>
+          <div class="chart-placeholder">
+            <svg class="line-chart" viewBox="0 0 400 200">
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#9077FF;stop-opacity:0.3" />
+                  <stop offset="100%" style="stop-color:#9077FF;stop-opacity:0" />
+                </linearGradient>
+              </defs>
+              <path class="line-gradient" d="M0,180 L50,120 L100,140 L150,80 L200,100 L250,60 L300,90 L350,50 L400,70 L400,200 L0,200 Z" />
+              <path class="line-path" d="M0,180 L50,120 L100,140 L150,80 L200,100 L250,60 L300,90 L350,50 L400,70" stroke-dasharray="1000" stroke-dashoffset="0" />
+            </svg>
+          </div>
+          <div id="trendSuggestionCard" style="display: none;">
+            <div class="suggestion-card">
+              <div class="suggestion-label">Guardian Suggestion</div>
+              <div class="suggestion-text">Your spending has been consistent this month. Consider setting aside a portion for savings when possible.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Layout for Bar and Donut -->
+        <div
