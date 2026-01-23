@@ -1,493 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="abyss">
 <head>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracker - Role Selection</title>
+  <title>Budget Buddy | Secure Entry</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* CSS Variables - Color Palette */
+    /* Applying your custom Abyss variables */
     :root {
-      --color-1: #383858;
-      --color-2: #5E42DF;
-      --color-3: #CD2B62;
-      --color-4: #721C50;
-      --color-5: #9077FF;
-      --color-6: #A76496;
-
-      --shade-1: #25253b;
-      --shade-2: #341ca5;
-      --shade-3: #891d41;
-      --shade-4: #26091b;
-      --shade-5: #5d39ff;
-      --shade-6: #724065;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --color-base-100: oklch(20% 0.08 209);
+      --color-primary: oklch(92% 0.2653 125);
+      --color-secondary: oklch(83.27% 0.0764 298.3);
+      --radius-box: 1.5rem;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-      background: linear-gradient(135deg, var(--shade-1) 0%, var(--color-1) 50%, var(--shade-4) 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e8e8f0;
+      background-color: oklch(10% 0.08 209); /* base-300 */
       overflow: hidden;
-      position: relative;
     }
 
-    /* Animated background elements */
-    body::before,
-    body::after {
-      content: '';
+    /* Ambient Background Glow */
+    .glow-blob {
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.03;
-      pointer-events: none;
-    }
-
-    body::before {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, var(--color-5), transparent 70%);
-      top: -300px;
-      right: -200px;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    body::after {
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, var(--color-2), transparent 70%);
-      bottom: -250px;
-      left: -150px;
-      animation: float 15s ease-in-out infinite reverse;
+      filter: blur(80px);
+      opacity: 0.15;
+      z-index: 0;
+      border-radius: 50%;
+      pointer-events: none;
     }
+
+    .blob-primary { background: var(--color-primary); top: -10%; left: -10%; animation: float 15s infinite alternate; }
+    .blob-secondary { background: var(--color-secondary); bottom: -10%; right: -10%; animation: float 20s infinite alternate-reverse; }
 
     @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.1); }
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(50px, 50px) scale(1.1); }
     }
 
-    .container {
-      max-width: 900px;
-      width: 90%;
-      text-align: center;
-      padding: 2rem;
-      position: relative;
-      z-index: 1;
-      animation: fadeIn 0.8s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .header {
-      margin-bottom: 4rem;
-      animation: slideDown 0.8s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .product-name {
-      font-size: 2.8rem;
-      font-weight: 500;
-      letter-spacing: -1px;
-      margin-bottom: 1rem;
-      color: #f5f5fa;
-      background: linear-gradient(135deg, #f5f5fa 0%, var(--color-5) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: #b8b8cc;
-      line-height: 1.6;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .role-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-      perspective: 1000px;
-    }
-
+    /* Glass Effect Card */
     .role-card {
-      background: linear-gradient(145deg, rgba(88, 88, 128, 0.15), rgba(56, 56, 88, 0.25));
-      border: 1px solid rgba(144, 119, 255, 0.2);
-      border-radius: 24px;
-      padding: 3rem 2rem;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      animation: slideUp 0.8s ease-out backwards;
-      backdrop-filter: blur(10px);
-    }
-
-    .role-card:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-
-    .role-card:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .role-card.student {
-      border-color: rgba(144, 119, 255, 0.3);
-    }
-
-    .role-card.student::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(144, 119, 255, 0.2), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .role-card.guardian {
-      border-color: rgba(94, 66, 223, 0.3);
-    }
-
-    .role-card.guardian::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(94, 66, 223, 0.2), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    /* Glow effect on hover */
-    .role-card::after {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 24px;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .role-card.student::after {
-      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
-      filter: blur(20px);
-    }
-
-    .role-card.guardian::after {
-      background: linear-gradient(135deg, var(--color-2), var(--shade-2));
-      filter: blur(20px);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .role-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: var(--color-primary);
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.06);
     }
 
-    .role-card.student:hover {
-      border-color: rgba(144, 119, 255, 0.6);
-    }
+    .role-card:active { transform: scale(0.98); }
 
-    .role-card.guardian:hover {
-      border-color: rgba(94, 66, 223, 0.6);
-    }
-
-    .role-card:hover::before {
-      opacity: 1;
-    }
-
-    .role-card:hover::after {
-      opacity: 0.3;
-    }
-
-    .role-card:hover .role-icon {
-      transform: scale(1.1) rotateY(5deg);
-    }
-
-    .role-card:active {
-      transform: scale(0.98) translateY(-4px);
-      transition: all 0.15s ease;
-    }
-
-    .role-icon {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 1.5rem;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      position: relative;
-      z-index: 1;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .student .role-icon {
-      background: linear-gradient(135deg, var(--color-5), var(--shade-5));
-      color: #f5f5fa;
-    }
-
-    .guardian .role-icon {
-      background: linear-gradient(135deg, var(--color-2), var(--shade-2));
-      color: #f5f5fa;
-    }
-
-    .role-title {
-      font-size: 1.75rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      color: #f5f5fa;
-      position: relative;
-      z-index: 1;
-    }
-
-    .role-description {
-      font-size: 0.95rem;
-      color: #b8b8cc;
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Access badge */
-    .access-badge {
-      display: inline-block;
-      margin-top: 1.25rem;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s ease;
-    }
-
-    .student .access-badge {
-      background: rgba(144, 119, 255, 0.15);
-      border: 1px solid rgba(144, 119, 255, 0.3);
-      color: var(--color-5);
-    }
-
-    .guardian .access-badge {
-      background: rgba(94, 66, 223, 0.15);
-      border: 1px solid rgba(94, 66, 223, 0.3);
-      color: var(--color-2);
-    }
-
-    .role-card:hover .access-badge {
-      transform: scale(1.05);
-    }
-
-    .footer {
-      margin-top: 3rem;
-      font-size: 0.85rem;
-      color: #8888a0;
-      line-height: 1.6;
-      animation: fadeIn 1.2s ease-out;
-    }
-
-    /* Selection feedback */
-    @keyframes selectPulse {
-      0% {
-        transform: scale(0.98);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.02);
-        opacity: 0.8;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0;
-      }
-    }
-
-    .role-card.selecting {
-      animation: selectPulse 0.5s ease-out;
-    }
-
-    /* Page transition */
-    body.transitioning {
+    .transitioning {
       opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    @media (max-width: 768px) {
-      .product-name {
-        font-size: 2.2rem;
-      }
-
-      .tagline {
-        font-size: 1rem;
-      }
-
-      .role-cards {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .role-card {
-        padding: 2.5rem 1.5rem;
-      }
-
-      .role-icon {
-        width: 60px;
-        height: 60px;
-      }
-
-      .role-title {
-        font-size: 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        width: 95%;
-        padding: 1.5rem;
-      }
-
-      .header {
-        margin-bottom: 3rem;
-      }
-
-      .product-name {
-        font-size: 1.8rem;
-      }
-
-      .role-card {
-        padding: 2rem 1.25rem;
-      }
+      transform: scale(1.05);
+      transition: all 0.5s ease-in-out;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1 class="product-name">Expense Tracker</h1>
-      <p class="tagline">A clear view of student spending, built on trust.</p>
-    </div>
+<body class="min-h-screen flex items-center justify-center p-6 text-base-content">
+  
+  <div class="glow-blob blob-primary"></div>
+  <div class="glow-blob blob-secondary"></div>
 
-    <div class="role-cards">
-      <div class="role-card student" onclick="selectRole('student', this)">
-        <div class="role-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+  <div class="container max-w-4xl relative z-10">
+    <header class="text-center mb-12 space-y-4">
+        <div class="badge badge-primary badge-outline font-bold tracking-widest p-3">SECURE ACCESS</div>
+        <h1 class="text-5xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-primary">
+          Budget Buddy
+        </h1>
+        <p class="text-lg opacity-70 max-w-md mx-auto">Smart financial oversight for students and guardians.</p>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      
+      <div onclick="selectRole('student', this)" class="role-card p-8 rounded-[var(--radius-box)] cursor-pointer group">
+        <div class="w-16 h-16 bg-primary text-primary-content rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.2)] group-hover:rotate-6 transition-transform">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
         </div>
-        <h2 class="role-title">Student</h2>
-        <p class="role-description">Track and manage your expenses with full control over your spending records.</p>
-        <div class="access-badge">Full Access</div>
+        <h2 class="text-3xl font-bold mb-2">Student</h2>
+        <p class="opacity-60 mb-6">Track your daily spending, set goals, and build healthy financial habits.</p>
+        <div class="badge badge-lg badge-ghost border-primary/20 text-primary">Owner Mode</div>
       </div>
 
-      <div class="role-card guardian" onclick="selectRole('guardian', this)">
-        <div class="role-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
+      <div onclick="selectRole('guardian', this)" class="role-card p-8 rounded-[var(--radius-box)] cursor-pointer group">
+        <div class="w-16 h-16 bg-secondary text-secondary-content rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.1)] group-hover:-rotate-6 transition-transform">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h2 class="role-title">Parent / Guardian</h2>
-        <p class="role-description">View spending patterns and provide supportive guidance through trusted oversight.</p>
-        <div class="access-badge">View Only</div>
+        <h2 class="text-3xl font-bold mb-2">Guardian</h2>
+        <p class="opacity-60 mb-6">Review expense reports and provide financial guidance with shared visibility.</p>
+        <div class="badge badge-lg badge-ghost border-secondary/20 text-secondary">Review Mode</div>
       </div>
+
     </div>
 
-    <div class="footer">
-      <p>Your privacy is respected. All information stays between you and your trusted circle.</p>
-    </div>
+    <footer class="mt-16 text-center opacity-40 text-sm">
+        <p>© 2026 Budget Buddy • Built for Financial Freedom</p>
+    </footer>
   </div>
 
   <script>
-    // Role selection handler - stores role and navigates to main dashboard
     function selectRole(role, element) {
-      // Prevent multiple clicks
-      if (document.body.classList.contains('transitioning')) {
-        return;
-      }
-
-      // Store role in session storage for main.html to read
+      // Save role for main.html
       sessionStorage.setItem('userRole', role);
+
+      // Animation feedback
+      element.classList.add('ring-2', 'ring-primary');
       
-      // Add selection feedback to clicked card
-      element.classList.add('selecting');
-      
-      // Smooth fade out transition for entire page
+      // Smooth Page Transition
       setTimeout(() => {
         document.body.classList.add('transitioning');
-      }, 200);
-      
-      // Navigate to main dashboard after transition
+      }, 150);
+
       setTimeout(() => {
         window.location.href = 'main.html';
       }, 600);
     }
-
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-      if (e.key === '1') {
-        const studentCard = document.querySelector('.role-card.student');
-        selectRole('student', studentCard);
-      } else if (e.key === '2') {
-        const guardianCard = document.querySelector('.role-card.guardian');
-        selectRole('guardian', guardianCard);
-      }
-    });
-
-    // Accessibility: Add focus styles
-    document.querySelectorAll('.role-card').forEach(card => {
-      card.setAttribute('tabindex', '0');
-      card.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this.click();
-        }
-      });
-    });
   </script>
 </body>
 </html>
