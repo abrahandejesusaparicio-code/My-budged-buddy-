@@ -1,1 +1,708 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Categories</title>
+    
+    <!-- Tailwind CSS & DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --base-300: #26091b;
+            --base-100: #25253b;
+            --primary: #9077FF;
+            --accent: #CD2B62;
+            --secondary: #5E42DF;
+            --text-primary: #f5f5fa;
+            --text-secondary: #A76496;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--base-300) 0%, var(--base-100) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .role-badge.student {
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(144, 119, 255, 0.3);
+        }
+
+        .role-badge.guardian {
+            background: rgba(205, 43, 98, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(205, 43, 98, 0.3);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon-large {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .category-stat {
+            text-align: center;
+        }
+
+        .stat-label-small {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value-small {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(144, 119, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(144, 119, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--base-100);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Emoji Picker */
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .emoji-option {
+            font-size: 2rem;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .emoji-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .emoji-option.selected {
+            background: rgba(144, 119, 255, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .student-only,
+        .guardian-only {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">BUDGET BUDDY</div>
+                <div id="roleBadge" class="role-badge"></div>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="main.html" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="reports.html" class="nav-link">
+                            <span class="nav-icon">📈</span>
+                            Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="categories.html" class="nav-link active">
+                            <span class="nav-icon">🏷️</span>
+                            Categories
+                        </a>
+                    </li>
+                    <li class="nav-item student-only">
+                        <a href="goals.html" class="nav-link">
+                            <span class="nav-icon">🎯</span>
+                            Goals
+                        </a>
+                    </li>
+                    <li class="nav-item guardian-only">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="main.html#settings" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="nav-icon">🚪</span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Categories</h1>
+                <p class="page-subtitle">Organize and track your expenses by category</p>
+            </div>
+
+            <!-- Add Category Button -->
+            <div style="margin-bottom: 2rem;">
+                <button class="btn btn-primary" onclick="openAddCategoryModal()">+ Add Custom Category</button>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="category-grid" id="categoriesGrid">
+                <!-- Categories will be generated here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-header" id="modalTitle">Add Category</h3>
+            <input type="hidden" id="editCategoryId">
+            
+            <div class="form-group">
+                <label class="form-label">Category Name</label>
+                <input type="text" id="categoryName" class="form-input" placeholder="e.g., Subscriptions" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Choose Icon</label>
+                <div class="emoji-picker" id="emojiPicker">
+                    <!-- Emoji options -->
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeCategoryModal()">Cancel</button>
+                <button class="btn btn-primary" style="flex: 1;" onclick="saveCategory()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultCategories = [
+            { id: 'food', name: 'Food & Dining', icon: '🍔', isDefault: true },
+            { id: 'transport', name: 'Transportation', icon: '🚗', isDefault: true },
+            { id: 'entertainment', name: 'Entertainment', icon: '🎮', isDefault: true },
+            { id: 'education', name: 'Education', icon: '📚', isDefault: true },
+            { id: 'health', name: 'Health', icon: '💊', isDefault: true },
+            { id: 'other', name: 'Other', icon: '📦', isDefault: true }
+        ];
+
+        const availableEmojis = ['🍔', '🚗', '🎮', '📚', '💊', '📦', '💰', '🏠', '👕', '✈️', '🎬', '📱', '💻', '⚡', '🎨', '🏋️', '🛒', '🎵', '📸', '☕', '🍕', '🎁', '💼', '🔧'];
+
+        let categories = [];
+        let expenses = [];
+        let selectedEmoji = '📦';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!userRole) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const roleBadge = document.getElementById('roleBadge');
+            roleBadge.textContent = userRole;
+            roleBadge.classList.add(userRole);
+
+            if (userRole === 'student') {
+                document.querySelectorAll('.student-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+            } else if (userRole === 'guardian') {
+                document.querySelectorAll('.guardian-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+            }
+
+            loadData();
+            generateEmojiPicker();
+            displayCategories();
+        });
+
+        function loadData() {
+            // Load custom categories
+            const savedCategories = localStorage.getItem('budgetBuddyCategories');
+            if (savedCategories) {
+                const customCategories = JSON.parse(savedCategories);
+                categories = [...defaultCategories, ...customCategories];
+            } else {
+                categories = [...defaultCategories];
+            }
+
+            // Load expenses
+            const savedExpenses = localStorage.getItem('budgetBuddyExpenses');
+            if (savedExpenses) {
+                expenses = JSON.parse(savedExpenses);
+            }
+        }
+
+        function saveCustomCategories() {
+            const customCategories = categories.filter(cat => !cat.isDefault);
+            localStorage.setItem('budgetBuddyCategories', JSON.stringify(customCategories));
+        }
+
+        function displayCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            
+            grid.innerHTML = categories.map(category => {
+                const categoryExpenses = expenses.filter(exp => exp.category === category.id);
+                const totalSpent = categoryExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+                const transactionCount = categoryExpenses.length;
+
+                return `
+                    <div class="category-card" onclick="viewCategory('${category.id}')">
+                        <div class="category-header">
+                            <div class="category-icon-large">${category.icon}</div>
+                            ${!category.isDefault ? `<button class="btn btn-secondary btn-small" onclick="event.stopPropagation(); editCategory('${category.id}')">Edit</button>` : ''}
+                        </div>
+                        <div class="category-name">${category.name}</div>
+                        <div class="category-stats">
+                            <div class="category-stat">
+                                <div class="stat-label-small">Spent</div>
+                                <div class="stat-value-small">$${totalSpent.toFixed(2)}</div>
+                            </div>
+                            <div class="category-stat">
+                                <div class="stat-label-small">Transactions</div>
+                                <div class="stat-value-small">${transactionCount}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function generateEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.innerHTML = availableEmojis.map(emoji => 
+                `<div class="emoji-option" onclick="selectEmoji('${emoji}')">${emoji}</div>`
+            ).join('');
+        }
+
+        function selectEmoji(emoji) {
+            selectedEmoji = emoji;
+            document.querySelectorAll('.emoji-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.textContent === emoji) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function openAddCategoryModal() {
+            document.getElementById('modalTitle').textContent = 'Add Custom Category';
+            document.getElementById('editCategoryId').value = '';
+            document.getElementById('categoryName').value = '';
+            selectedEmoji = '📦';
+            document.querySelectorAll('.emoji-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function editCategory(categoryId) {
+            const category = categories.find(cat => cat.id === categoryId);
+            if (!category || category.isDefault) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Category';
+            document.getElementById('editCategoryId').value = categoryId;
+            document.getElementById('categoryName').value = category.name;
+            selectedEmoji = category.icon;
+            
+            document.querySelectorAll('.emoji-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.textContent === category.icon) {
+                    opt.classList.add('selected');
+                }
+            });
+
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+        }
+
+        function saveCategory() {
+            const categoryName = document.getElementById('categoryName').value.trim();
+            const editId = document.getElementById('editCategoryId').value;
+
+            if (!categoryName) {
+                alert('Please enter a category name');
+                return;
+            }
+
+            if (editId) {
+                // Edit existing category
+                const category = categories.find(cat => cat.id === editId);
+                if (category) {
+                    category.name = categoryName;
+                    category.icon = selectedEmoji;
+                }
+            } else {
+                // Add new category
+                const newCategory = {
+                    id: 'custom_' + Date.now(),
+                    name: categoryName,
+                    icon: selectedEmoji,
+                    isDefault: false
+                };
+                categories.push(newCategory);
+            }
+
+            saveCustomCategories();
+            displayCategories();
+            closeCategoryModal();
+            alert('Category saved successfully!');
+        }
+
+        function viewCategory(categoryId) {
+            // Navigate to a filtered view (could expand this feature)
+            alert('View all expenses in this category (feature coming soon)');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
