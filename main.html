@@ -39,7 +39,6 @@
             overflow-x: hidden;
         }
 
-        /* Layout */
         .dashboard-container {
             display: flex;
             min-height: 100vh;
@@ -51,7 +50,6 @@
             to { opacity: 1; }
         }
 
-        /* Sidebar */
         .sidebar {
             width: 280px;
             background: rgba(255, 255, 255, 0.03);
@@ -62,7 +60,6 @@
             top: 0;
             height: 100vh;
             overflow-y: auto;
-            transition: transform 0.3s ease;
         }
 
         .sidebar-header {
@@ -92,18 +89,17 @@
         }
 
         .role-badge.student {
-            background: rgba(144, 119, 255, 0.2);
+            background: rgba(144, 119, 255, 0.15);
             color: var(--primary);
-            border: 1px solid var(--primary);
+            border: 1px solid rgba(144, 119, 255, 0.3);
         }
 
         .role-badge.guardian {
-            background: rgba(205, 43, 98, 0.2);
+            background: rgba(205, 43, 98, 0.15);
             color: var(--accent);
-            border: 1px solid var(--accent);
+            border: 1px solid rgba(205, 43, 98, 0.3);
         }
 
-        /* Navigation */
         .nav-menu {
             list-style: none;
         }
@@ -122,6 +118,7 @@
             transition: all 0.3s ease;
             font-weight: 500;
             font-size: 0.95rem;
+            cursor: pointer;
         }
 
         .nav-link:hover {
@@ -141,7 +138,6 @@
             font-size: 1.25rem;
         }
 
-        /* Main Content */
         .main-content {
             flex: 1;
             padding: 2rem;
@@ -165,7 +161,6 @@
             font-size: 1rem;
         }
 
-        /* Glass Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -180,32 +175,14 @@
             border-color: rgba(255, 255, 255, 0.12);
         }
 
-        /* Balance Card */
         .balance-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border-radius: 1.5rem;
             padding: 2rem;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 40px rgba(144, 119, 255, 0.3);
+            border: 2px solid rgba(144, 119, 255, 0.3);
             position: relative;
             overflow: hidden;
-        }
-
-        .balance-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
 
         .balance-label {
@@ -226,7 +203,6 @@
             background-clip: text;
         }
 
-        /* Grid Layout */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -234,7 +210,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Form Styles */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -273,7 +248,6 @@
             min-height: 100px;
         }
 
-        /* Buttons */
         .btn {
             padding: 0.875rem 1.5rem;
             border: none;
@@ -289,23 +263,21 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 15px rgba(144, 119, 255, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(144, 119, 255, 0.5);
+            box-shadow: 0 6px 20px rgba(144, 119, 255, 0.3);
         }
 
         .btn-accent {
             background: linear-gradient(135deg, var(--accent), #E83568);
             color: white;
-            box-shadow: 0 4px 15px rgba(205, 43, 98, 0.3);
         }
 
         .btn-accent:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(205, 43, 98, 0.5);
+            box-shadow: 0 6px 20px rgba(205, 43, 98, 0.3);
         }
 
         .btn-secondary {
@@ -318,7 +290,22 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Progress Bar */
+        .btn-danger {
+            background: rgba(205, 43, 98, 0.2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-danger:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
         .progress-container {
             margin-top: 1rem;
         }
@@ -337,7 +324,6 @@
             background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 10px;
             transition: width 0.6s ease;
-            box-shadow: 0 0 15px rgba(144, 119, 255, 0.6);
         }
 
         .progress-text {
@@ -348,7 +334,6 @@
             color: var(--text-secondary);
         }
 
-        /* Table */
         .transaction-table {
             width: 100%;
             border-collapse: separate;
@@ -403,7 +388,6 @@
             font-weight: 600;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -438,25 +422,64 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 1024px) {
-            .sidebar {
-                position: fixed;
-                left: -280px;
-                z-index: 100;
-                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
-            }
+        .page-section {
+            display: none;
+        }
 
-            .sidebar.active {
-                transform: translateX(280px);
-            }
+        .page-section.active {
+            display: block;
+        }
 
-            .main-content {
-                margin-left: 0;
-            }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--base-100);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
             .main-content {
                 padding: 1rem;
             }
@@ -478,7 +501,6 @@
             }
         }
 
-        /* Hidden by default */
         .student-only,
         .guardian-only {
             display: none;
@@ -487,7 +509,6 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">BUDGET BUDDY</div>
@@ -497,10 +518,10 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
+                        <div class="nav-link active" onclick="showPage('dashboard')">
                             <span class="nav-icon">📊</span>
                             Dashboard
-                        </a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a href="reports.html" class="nav-link">
@@ -521,268 +542,319 @@
                         </a>
                     </li>
                     <li class="nav-item guardian-only">
-                        <a href="#" class="nav-link">
+                        <div class="nav-link" onclick="showPage('students')">
                             <span class="nav-icon">👥</span>
                             Students
-                        </a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <div class="nav-link" onclick="showPage('settings')">
                             <span class="nav-icon">⚙️</span>
                             Settings
-                        </a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link">
+                        <div class="nav-link" onclick="logout()">
                             <span class="nav-icon">🚪</span>
                             Logout
-                        </a>
+                        </div>
                     </li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title" id="welcomeTitle">Welcome Back!</h1>
-                <p class="page-subtitle">Manage your budget effectively</p>
-            </div>
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page-section active">
+                <div class="page-header">
+                    <h1 class="page-title" id="welcomeTitle">Welcome Back!</h1>
+                    <p class="page-subtitle">Manage your budget effectively</p>
+                </div>
 
-            <!-- Balance Card -->
-            <div class="balance-card" style="margin-bottom: 2rem;">
-                <div class="balance-label">Total Balance</div>
-                <div class="balance-amount">$2,450.00</div>
-            </div>
+                <div class="balance-card" style="margin-bottom: 2rem;">
+                    <div class="balance-label">Total Balance</div>
+                    <div class="balance-amount" id="totalBalance">$0.00</div>
+                </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-label">Income</div>
-                    <div class="stat-value amount-positive">$3,200</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💸</div>
-                    <div class="stat-label">Expenses</div>
-                    <div class="stat-value amount-negative">$750</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-label">This Month</div>
-                    <div class="stat-value">$450</div>
-                </div>
-                <div class="stat-card student-only">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-label">Goal Progress</div>
-                    <div class="stat-value">75%</div>
-                </div>
-                <div class="stat-card guardian-only">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-label">Active Students</div>
-                    <div class="stat-value">3</div>
-                </div>
-            </div>
-
-            <!-- Student: Add Expense Form & Goal Tracker -->
-            <div class="student-only">
-                <div class="dashboard-grid">
-                    <!-- Add Expense Form -->
-                    <div class="glass-card">
-                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
-                            ➕ Add Expense
-                        </h3>
-                        <form id="expenseForm">
-                            <div class="form-group">
-                                <label class="form-label">Description</label>
-                                <input type="text" class="form-input" placeholder="e.g., Coffee at Starbucks" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Amount</label>
-                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <select class="form-select" required>
-                                    <option value="">Select Category</option>
-                                    <option value="food">🍔 Food & Dining</option>
-                                    <option value="transport">🚗 Transportation</option>
-                                    <option value="entertainment">🎮 Entertainment</option>
-                                    <option value="education">📚 Education</option>
-                                    <option value="health">💊 Health</option>
-                                    <option value="other">📦 Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Notes (Optional)</label>
-                                <textarea class="form-textarea" placeholder="Add any additional details..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Add Expense</button>
-                        </form>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-label">Income</div>
+                        <div class="stat-value amount-positive" id="totalIncome">$0</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💸</div>
+                        <div class="stat-label">Expenses</div>
+                        <div class="stat-value amount-negative" id="totalExpenses">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-label">This Month</div>
+                        <div class="stat-value" id="monthlyExpenses">$0</div>
+                    </div>
+                    <div class="stat-card student-only">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-label">Goal Progress</div>
+                        <div class="stat-value" id="goalProgress">0%</div>
+                    </div>
+                    <div class="stat-card guardian-only">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-label">Active Students</div>
+                        <div class="stat-value">3</div>
+                    </div>
+                </div>
 
-                    <!-- Goal Tracker -->
-                    <div class="glass-card">
-                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
-                            🎯 Spending Goal
-                        </h3>
-                        <div>
-                            <div style="margin-bottom: 1.5rem;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Monthly Budget</span>
-                                    <span style="color: var(--text-primary); font-weight: 600;">$1,000</span>
+                <div class="student-only">
+                    <div class="dashboard-grid">
+                        <div class="glass-card">
+                            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
+                                ➕ Add Expense
+                            </h3>
+                            <form id="expenseForm">
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <input type="text" id="expenseDesc" class="form-input" placeholder="e.g., Coffee at Starbucks" required>
                                 </div>
-                                <div style="display: flex; justify-content: space-between;">
-                                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Current Spending</span>
-                                    <span style="color: var(--accent); font-weight: 600;">$750</span>
+                                <div class="form-group">
+                                    <label class="form-label">Amount</label>
+                                    <input type="number" id="expenseAmount" class="form-input" placeholder="0.00" step="0.01" required>
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select id="expenseCategory" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                        <option value="food">🍔 Food & Dining</option>
+                                        <option value="transport">🚗 Transportation</option>
+                                        <option value="entertainment">🎮 Entertainment</option>
+                                        <option value="education">📚 Education</option>
+                                        <option value="health">💊 Health</option>
+                                        <option value="other">📦 Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Notes (Optional)</label>
+                                    <textarea id="expenseNotes" class="form-textarea" placeholder="Add any additional details..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">Add Expense</button>
+                            </form>
+                        </div>
 
-                            <div class="progress-container">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%;"></div>
+                        <div class="glass-card">
+                            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
+                                🎯 Spending Goal
+                            </h3>
+                            <div>
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Monthly Budget</span>
+                                        <span style="color: var(--text-primary); font-weight: 600;" id="goalAmount">$1,000</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Current Spending</span>
+                                        <span style="color: var(--accent); font-weight: 600;" id="currentSpending">$0</span>
+                                    </div>
                                 </div>
-                                <div class="progress-text">
-                                    <span>75% Used</span>
-                                    <span>$250 Remaining</span>
-                                </div>
-                            </div>
 
-                            <div style="margin-top: 1.5rem;">
-                                <button class="btn btn-secondary" style="width: 100%;">Update Goal</button>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="goalProgressBar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="progress-text">
+                                        <span id="goalPercentText">0% Used</span>
+                                        <span id="goalRemainingText">$1,000 Remaining</span>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 1.5rem;">
+                                    <button class="btn btn-secondary" style="width: 100%;" onclick="openGoalModal()">Update Goal</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Guardian: Overview & Controls -->
-            <div class="guardian-only">
-                <div class="dashboard-grid">
-                    <!-- Review Mode Badge -->
-                    <div class="glass-card">
-                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
-                            👁️ Review Mode
-                        </h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
-                            You are viewing student budgets in oversight mode. All transactions are monitored and reports are available for review.
-                        </p>
-                        <button class="btn btn-accent" style="width: 100%;">View All Students</button>
+                <div class="guardian-only">
+                    <div class="dashboard-grid">
+                        <div class="glass-card">
+                            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
+                                👁️ Review Mode
+                            </h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                                You are viewing student budgets in oversight mode. All transactions are monitored and reports are available for review.
+                            </p>
+                            <button class="btn btn-accent" style="width: 100%;">View All Students</button>
+                        </div>
+
+                        <div class="glass-card">
+                            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
+                                📊 Generate Report
+                            </h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                                Generate comprehensive spending reports for any time period. Analyze trends and patterns.
+                            </p>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="btn btn-secondary" style="flex: 1;">Weekly</button>
+                                <button class="btn btn-secondary" style="flex: 1;">Monthly</button>
+                                <button class="btn btn-accent" style="flex: 1;">Custom</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Request Report -->
-                    <div class="glass-card">
-                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
-                            📊 Generate Report
+                    <div class="glass-card" style="margin-top: 1.5rem;">
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent);">
+                            📋 Oversight Summary
                         </h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
-                            Generate comprehensive spending reports for any time period. Analyze trends and patterns.
-                        </p>
-                        <div style="display: flex; gap: 0.75rem;">
-                            <button class="btn btn-secondary" style="flex: 1;">Weekly</button>
-                            <button class="btn btn-secondary" style="flex: 1;">Monthly</button>
-                            <button class="btn btn-accent" style="flex: 1;">Custom</button>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Total Students Monitored</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">3</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Alerts This Week</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">2</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Reports Pending</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">1</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Oversight Summary -->
-                <div class="glass-card" style="margin-top: 1.5rem;">
-                    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent);">
-                        📋 Oversight Summary
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem;">
+                        📝 Recent Transactions
                     </h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
-                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Total Students Monitored</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">3</div>
-                        </div>
-                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
-                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Alerts This Week</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">2</div>
-                        </div>
-                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
-                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Reports Pending</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">1</div>
-                        </div>
+                    <div style="overflow-x: auto;">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th class="student-only">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTableBody">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Transactions -->
-            <div class="glass-card" style="margin-top: 2rem;">
-                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem;">
-                    📝 Recent Transactions
-                </h3>
-                <div style="overflow-x: auto;">
-                    <table class="transaction-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Category</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Jan 20, 2026</td>
-                                <td>Grocery Shopping</td>
-                                <td><span class="category-badge">🍔 Food</span></td>
-                                <td class="amount-negative">-$85.50</td>
-                            </tr>
-                            <tr>
-                                <td>Jan 19, 2026</td>
-                                <td>Monthly Allowance</td>
-                                <td><span class="category-badge">💰 Income</span></td>
-                                <td class="amount-positive">+$500.00</td>
-                            </tr>
-                            <tr>
-                                <td>Jan 18, 2026</td>
-                                <td>Movie Tickets</td>
-                                <td><span class="category-badge">🎮 Entertainment</span></td>
-                                <td class="amount-negative">-$24.00</td>
-                            </tr>
-                            <tr>
-                                <td>Jan 17, 2026</td>
-                                <td>Textbooks</td>
-                                <td><span class="category-badge">📚 Education</span></td>
-                                <td class="amount-negative">-$120.00</td>
-                            </tr>
-                            <tr>
-                                <td>Jan 16, 2026</td>
-                                <td>Bus Pass</td>
-                                <td><span class="category-badge">🚗 Transport</span></td>
-                                <td class="amount-negative">-$45.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Settings Page -->
+            <div id="settings" class="page-section">
+                <div class="page-header">
+                    <h1 class="page-title">Settings</h1>
+                    <p class="page-subtitle">Manage your account and preferences</p>
+                </div>
+
+                <div class="glass-card" style="margin-bottom: 2rem;">
+                    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
+                        ⚙️ Account Settings
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">Display Name</label>
+                        <input type="text" class="form-input" id="settingsName" value="Budget User">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="settingsEmail" value="user@budgetbuddy.com">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+                </div>
+
+                <div class="glass-card" style="margin-bottom: 2rem;">
+                    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent);">
+                        🗑️ Data Management
+                    </h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Warning: This action will permanently delete all your expenses, transactions, and goals. This cannot be undone.
+                    </p>
+                    <button class="btn btn-danger" onclick="resetAllData()">Reset All Data</button>
+                </div>
+            </div>
+
+            <!-- Students Page (Guardian Only) -->
+            <div id="students" class="page-section guardian-only">
+                <div class="page-header">
+                    <h1 class="page-title">Students</h1>
+                    <p class="page-subtitle">Monitor student accounts</p>
+                </div>
+                <div class="glass-card">
+                    <p style="color: var(--text-secondary); padding: 2rem; text-align: center;">
+                        Student monitoring dashboard coming soon. View all linked accounts.
+                    </p>
                 </div>
             </div>
         </main>
     </div>
 
+    <div id="goalModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-header">Update Spending Goal</h3>
+            <div class="form-group">
+                <label class="form-label">Monthly Budget</label>
+                <input type="number" id="modalGoalAmount" class="form-input" placeholder="1000.00" step="0.01">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeGoalModal()">Cancel</button>
+                <button class="btn btn-primary" style="flex: 1;" onclick="saveGoal()">Save Goal</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-header">Edit Expense</h3>
+            <input type="hidden" id="editExpenseId">
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" id="editExpenseDesc" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <input type="number" id="editExpenseAmount" class="form-input" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="editExpenseCategory" class="form-select" required>
+                    <option value="food">🍔 Food & Dining</option>
+                    <option value="transport">🚗 Transportation</option>
+                    <option value="entertainment">🎮 Entertainment</option>
+                    <option value="education">📚 Education</option>
+                    <option value="health">💊 Health</option>
+                    <option value="other">📦 Other</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-primary" style="flex: 1;" onclick="saveEditExpense()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Check user role and display appropriate content
+        let expenses = [];
+        let monthlyGoal = 1000;
+        const MOCK_INCOME = 3200;
+
         document.addEventListener('DOMContentLoaded', function() {
             const userRole = sessionStorage.getItem('userRole');
             
             if (!userRole) {
-                // Redirect to index if no role is set
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Update role badge
             const roleBadge = document.getElementById('roleBadge');
             roleBadge.textContent = userRole;
             roleBadge.classList.add(userRole);
 
-            // Update welcome message
             const welcomeTitle = document.getElementById('welcomeTitle');
             welcomeTitle.textContent = `Welcome Back, ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}!`;
 
-            // Show/hide content based on role
             if (userRole === 'student') {
                 document.querySelectorAll('.student-only').forEach(el => {
                     el.style.display = 'block';
@@ -798,25 +870,237 @@
                     el.style.display = 'none';
                 });
             }
+
+            loadData();
+            updateDashboard();
         });
 
-        // Handle expense form submission
+        function loadData() {
+            const savedExpenses = localStorage.getItem('budgetBuddyExpenses');
+            const savedGoal = localStorage.getItem('budgetBuddyGoal');
+            
+            if (savedExpenses) {
+                expenses = JSON.parse(savedExpenses);
+            }
+            
+            if (savedGoal) {
+                monthlyGoal = parseFloat(savedGoal);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('budgetBuddyExpenses', JSON.stringify(expenses));
+            localStorage.setItem('budgetBuddyGoal', monthlyGoal.toString());
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.nav-link').classList.add('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('userRole');
+                window.location.href = 'index.html';
+            }
+        }
+
         document.getElementById('expenseForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Expense added successfully! (This is a demo)');
+            
+            const expense = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                description: document.getElementById('expenseDesc').value,
+                amount: parseFloat(document.getElementById('expenseAmount').value),
+                category: document.getElementById('expenseCategory').value,
+                notes: document.getElementById('expenseNotes').value
+            };
+
+            expenses.push(expense);
+            saveData();
+            updateDashboard();
             this.reset();
+            
+            alert('✅ Expense added successfully!');
         });
 
-        // Navigation link active state
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.textContent.trim() !== 'Logout') {
-                    e.preventDefault();
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
-        });
+        function updateDashboard() {
+            const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const balance = MOCK_INCOME - totalExpenses;
+
+            document.getElementById('totalBalance').textContent = `$${balance.toFixed(2)}`;
+            document.getElementById('totalIncome').textContent = `$${MOCK_INCOME}`;
+            document.getElementById('totalExpenses').textContent = `$${totalExpenses.toFixed(2)}`;
+            document.getElementById('monthlyExpenses').textContent = `$${totalExpenses.toFixed(2)}`;
+
+            const goalPercent = (totalExpenses / monthlyGoal) * 100;
+            const remaining = monthlyGoal - totalExpenses;
+            
+            document.getElementById('goalAmount').textContent = `$${monthlyGoal.toFixed(2)}`;
+            document.getElementById('currentSpending').textContent = `$${totalExpenses.toFixed(2)}`;
+            document.getElementById('goalProgress').textContent = `${Math.round(goalPercent)}%`;
+            document.getElementById('goalProgressBar').style.width = `${Math.min(goalPercent, 100)}%`;
+            document.getElementById('goalPercentText').textContent = `${Math.round(goalPercent)}% Used`;
+            document.getElementById('goalRemainingText').textContent = `$${Math.max(remaining, 0).toFixed(2)} Remaining`;
+
+            updateTransactionsTable();
+        }
+
+        function updateTransactionsTable() {
+            const tbody = document.getElementById('transactionTableBody');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (expenses.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="${userRole === 'student' ? '5' : '4'}" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No transactions yet. Add your first expense above!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = expenses.slice().reverse().map(expense => {
+                const date = new Date(expense.date);
+                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                
+                const categoryIcons = {
+                    food: '🍔 Food',
+                    transport: '🚗 Transport',
+                    entertainment: '🎮 Entertainment',
+                    education: '📚 Education',
+                    health: '💊 Health',
+                    other: '📦 Other'
+                };
+
+                const actionsColumn = userRole === 'student' ? `
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary btn-small" onclick="editExpense(${expense.id})">Edit</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">Delete</button>
+                        </div>
+                    </td>
+                ` : '';
+
+                return `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td>${expense.description}</td>
+                        <td><span class="category-badge">${categoryIcons[expense.category]}</span></td>
+                        <td class="amount-negative">-$${expense.amount.toFixed(2)}</td>
+                        ${actionsColumn}
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function editExpense(id) {
+            const expense = expenses.find(exp => exp.id === id);
+            if (!expense) return;
+
+            document.getElementById('editExpenseId').value = id;
+            document.getElementById('editExpenseDesc').value = expense.description;
+            document.getElementById('editExpenseAmount').value = expense.amount;
+            document.getElementById('editExpenseCategory').value = expense.category;
+
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        function saveEditExpense() {
+            const id = parseInt(document.getElementById('editExpenseId').value);
+            const expense = expenses.find(exp => exp.id === id);
+            
+            if (expense) {
+                expense.description = document.getElementById('editExpenseDesc').value;
+                expense.amount = parseFloat(document.getElementById('editExpenseAmount').value);
+                expense.category = document.getElementById('editExpenseCategory').value;
+
+                saveData();
+                updateDashboard();
+                closeEditModal();
+                alert('✅ Expense updated successfully!');
+            }
+        }
+
+        function deleteExpense(id) {
+            if (confirm('Are you sure you want to delete this expense?')) {
+                expenses = expenses.filter(exp => exp.id !== id);
+                saveData();
+                updateDashboard();
+                alert('✅ Expense deleted successfully!');
+            }
+        }
+
+        function openGoalModal() {
+            document.getElementById('modalGoalAmount').value = monthlyGoal;
+            document.getElementById('goalModal').classList.add('active');
+        }
+
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('active');
+        }
+
+        function saveGoal() {
+            const newGoal = parseFloat(document.getElementById('modalGoalAmount').value);
+            if (newGoal && newGoal > 0) {
+                monthlyGoal = newGoal;
+                saveData();
+                updateDashboard();
+                closeGoalModal();
+                alert('✅ Goal updated successfully!');
+            } else {
+                alert('Please enter a valid goal amount.');
+            }
+        }
+
+        function saveSettings() {
+            const name = document.getElementById('settingsName').value;
+            const email = document.getElementById('settingsEmail').value;
+            
+            localStorage.setItem('budgetBuddyName', name);
+            localStorage.setItem('budgetBuddyEmail', email);
+            
+            alert('✅ Settings saved successfully!');
+        }
+
+        function resetAllData() {
+            const confirmation = prompt('This will delete ALL your data. Type "DELETE" to confirm:');
+            
+            if (confirmation === 'DELETE') {
+                expenses = [];
+                monthlyGoal = 1000;
+                localStorage.removeItem('budgetBuddyExpenses');
+                localStorage.removeItem('budgetBuddyGoal');
+                localStorage.removeItem('budgetBuddyName');
+                localStorage.removeItem('budgetBuddyEmail');
+                localStorage.removeItem('budgetBuddyGoals');
+                localStorage.removeItem('budgetBuddyCategories');
+                
+                updateDashboard();
+                alert('✅ All data has been reset!');
+            } else {
+                alert('Reset cancelled.');
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
