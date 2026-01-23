@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Buddy - Welcome</title>
+    <title>Budget Buddy - Dashboard</title>
     
     <!-- Tailwind CSS & DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet">
@@ -12,7 +12,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -36,285 +36,787 @@
             background: linear-gradient(135deg, var(--base-300) 0%, var(--base-100) 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow: hidden;
-            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Ambient Floating Blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 20s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--primary), transparent);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, var(--accent), transparent);
-            bottom: -80px;
-            right: -80px;
-            animation-delay: 5s;
-        }
-
-        .blob-3 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--secondary), transparent);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.9); }
-            75% { transform: translate(20px, 30px) scale(1.05); }
-        }
-
-        /* Content Container */
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
+        /* Layout */
+        .dashboard-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            animation: fadeIn 0.8s ease-out;
+            min-height: 100vh;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Title Styling */
-        .logo-title {
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
             font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
             font-weight: 900;
-            font-size: 4rem;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-align: center;
+            letter-spacing: -1px;
             margin-bottom: 0.5rem;
-            letter-spacing: -2px;
-            text-shadow: 0 0 40px rgba(144, 119, 255, 0.5);
-            animation: glow 3s ease-in-out infinite;
         }
 
-        @keyframes glow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.3); }
+        .role-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .subtitle {
-            font-size: 1.125rem;
+        .role-badge.student {
+            background: rgba(144, 119, 255, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .role-badge.guardian {
+            background: rgba(205, 43, 98, 0.2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        /* Navigation */
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
             color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 4rem;
-            font-weight: 300;
-            letter-spacing: 2px;
+            text-decoration: none;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
-        /* Role Cards Container */
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 700px;
-            width: 100%;
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            transform: translateX(5px);
         }
 
-        /* Role Card */
-        .role-card {
+        .nav-link.active {
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border-radius: 1.5rem;
-            padding: 3rem 2rem;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 40px rgba(144, 119, 255, 0.3);
             position: relative;
             overflow: hidden;
         }
 
-        .role-card::before {
+        .balance-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            border-radius: 1.5rem;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--card-color), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            animation: shimmer 3s infinite;
         }
 
-        .role-card:hover::before {
-            opacity: 1;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .role-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                        0 0 40px var(--glow-color);
+        .balance-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
         }
 
-        .role-card:active {
-            transform: translateY(-4px) scale(0.98);
-        }
-
-        .student-card {
-            --card-color: var(--primary);
-            --glow-color: rgba(144, 119, 255, 0.4);
-        }
-
-        .guardian-card {
-            --card-color: var(--accent);
-            --glow-color: rgba(205, 43, 98, 0.4);
-        }
-
-        /* Icon Container */
-        .icon-container {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            background: var(--card-color);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
-                        0 0 30px var(--glow-color);
-            transition: all 0.4s ease;
-        }
-
-        .role-card:hover .icon-container {
-            transform: rotate(360deg) scale(1.1);
-        }
-
-        /* Card Title */
-        .card-title {
+        .balance-amount {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(144, 119, 255, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(144, 119, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(144, 119, 255, 0.5);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), #E83568);
+            color: white;
+            box-shadow: 0 4px 15px rgba(205, 43, 98, 0.3);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(205, 43, 98, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.6s ease;
+            box-shadow: 0 0 15px rgba(144, 119, 255, 0.6);
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Table */
+        .transaction-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .transaction-table thead {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .transaction-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .transaction-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .transaction-table td {
+            padding: 1rem;
             color: var(--text-primary);
         }
 
-        /* Card Description */
-        .card-description {
-            text-align: center;
+        .category-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+        }
+
+        .amount-positive {
+            color: #4ADE80;
+            font-weight: 600;
+        }
+
+        .amount-negative {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            font-weight: 300;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Fade Out Animation */
-        .fade-out {
-            animation: fadeOut 0.5s ease-out forwards;
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: scale(0.95);
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                z-index: 100;
+                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .sidebar.active {
+                transform: translateX(280px);
+            }
+
+            .main-content {
+                margin-left: 0;
             }
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .logo-title {
-                font-size: 2.5rem;
+            .main-content {
+                padding: 1rem;
             }
 
-            .cards-container {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .balance-amount {
+                font-size: 2rem;
+            }
+
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-                max-width: 350px;
             }
 
-            .subtitle {
-                margin-bottom: 2rem;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
+
+        /* Hidden by default */
+        .student-only,
+        .guardian-only {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Ambient Blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-
-    <!-- Main Content -->
-    <div class="content-wrapper" id="mainContent">
-        <h1 class="logo-title">BUDGET BUDDY</h1>
-        <p class="subtitle">SELECT YOUR ROLE</p>
-
-        <div class="cards-container">
-            <!-- Student Card -->
-            <div class="role-card student-card" onclick="selectRole('student')">
-                <div class="icon-container">
-                    🎓
-                </div>
-                <h2 class="card-title">Student</h2>
-                <p class="card-description">
-                    Track expenses, set goals, and manage your personal budget with ease.
-                </p>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">BUDGET BUDDY</div>
+                <div id="roleBadge" class="role-badge"></div>
             </div>
 
-            <!-- Guardian Card -->
-            <div class="role-card guardian-card" onclick="selectRole('guardian')">
-                <div class="icon-container">
-                    👨‍👩‍👧
-                </div>
-                <h2 class="card-title">Guardian</h2>
-                <p class="card-description">
-                    Monitor spending, review reports, and provide oversight for student budgets.
-                </p>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📈</span>
+                            Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🏷️</span>
+                            Categories
+                        </a>
+                    </li>
+                    <li class="nav-item student-only">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🎯</span>
+                            Goals
+                        </a>
+                    </li>
+                    <li class="nav-item guardian-only">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="nav-icon">🚪</span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title" id="welcomeTitle">Welcome Back!</h1>
+                <p class="page-subtitle">Manage your budget effectively</p>
             </div>
-        </div>
+
+            <!-- Balance Card -->
+            <div class="balance-card" style="margin-bottom: 2rem;">
+                <div class="balance-label">Total Balance</div>
+                <div class="balance-amount">$2,450.00</div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Income</div>
+                    <div class="stat-value amount-positive">$3,200</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-label">Expenses</div>
+                    <div class="stat-value amount-negative">$750</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-label">This Month</div>
+                    <div class="stat-value">$450</div>
+                </div>
+                <div class="stat-card student-only">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-label">Goal Progress</div>
+                    <div class="stat-value">75%</div>
+                </div>
+                <div class="stat-card guardian-only">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Active Students</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+
+            <!-- Student: Add Expense Form & Goal Tracker -->
+            <div class="student-only">
+                <div class="dashboard-grid">
+                    <!-- Add Expense Form -->
+                    <div class="glass-card">
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
+                            ➕ Add Expense
+                        </h3>
+                        <form id="expenseForm">
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-input" placeholder="e.g., Coffee at Starbucks" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-input" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    <option value="food">🍔 Food & Dining</option>
+                                    <option value="transport">🚗 Transportation</option>
+                                    <option value="entertainment">🎮 Entertainment</option>
+                                    <option value="education">📚 Education</option>
+                                    <option value="health">💊 Health</option>
+                                    <option value="other">📦 Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Notes (Optional)</label>
+                                <textarea class="form-textarea" placeholder="Add any additional details..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Add Expense</button>
+                        </form>
+                    </div>
+
+                    <!-- Goal Tracker -->
+                    <div class="glass-card">
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--primary);">
+                            🎯 Spending Goal
+                        </h3>
+                        <div>
+                            <div style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Monthly Budget</span>
+                                    <span style="color: var(--text-primary); font-weight: 600;">$1,000</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Current Spending</span>
+                                    <span style="color: var(--accent); font-weight: 600;">$750</span>
+                                </div>
+                            </div>
+
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>75% Used</span>
+                                    <span>$250 Remaining</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1.5rem;">
+                                <button class="btn btn-secondary" style="width: 100%;">Update Goal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guardian: Overview & Controls -->
+            <div class="guardian-only">
+                <div class="dashboard-grid">
+                    <!-- Review Mode Badge -->
+                    <div class="glass-card">
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
+                            👁️ Review Mode
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                            You are viewing student budgets in oversight mode. All transactions are monitored and reports are available for review.
+                        </p>
+                        <button class="btn btn-accent" style="width: 100%;">View All Students</button>
+                    </div>
+
+                    <!-- Request Report -->
+                    <div class="glass-card">
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent);">
+                            📊 Generate Report
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                            Generate comprehensive spending reports for any time period. Analyze trends and patterns.
+                        </p>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-secondary" style="flex: 1;">Weekly</button>
+                            <button class="btn btn-secondary" style="flex: 1;">Monthly</button>
+                            <button class="btn btn-accent" style="flex: 1;">Custom</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Oversight Summary -->
+                <div class="glass-card" style="margin-top: 1.5rem;">
+                    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent);">
+                        📋 Oversight Summary
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Total Students Monitored</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">3</div>
+                        </div>
+                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Alerts This Week</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">2</div>
+                        </div>
+                        <div style="padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem;">
+                            <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Reports Pending</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="glass-card" style="margin-top: 2rem;">
+                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; margin-bottom: 1.5rem;">
+                    📝 Recent Transactions
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jan 20, 2026</td>
+                                <td>Grocery Shopping</td>
+                                <td><span class="category-badge">🍔 Food</span></td>
+                                <td class="amount-negative">-$85.50</td>
+                            </tr>
+                            <tr>
+                                <td>Jan 19, 2026</td>
+                                <td>Monthly Allowance</td>
+                                <td><span class="category-badge">💰 Income</span></td>
+                                <td class="amount-positive">+$500.00</td>
+                            </tr>
+                            <tr>
+                                <td>Jan 18, 2026</td>
+                                <td>Movie Tickets</td>
+                                <td><span class="category-badge">🎮 Entertainment</span></td>
+                                <td class="amount-negative">-$24.00</td>
+                            </tr>
+                            <tr>
+                                <td>Jan 17, 2026</td>
+                                <td>Textbooks</td>
+                                <td><span class="category-badge">📚 Education</span></td>
+                                <td class="amount-negative">-$120.00</td>
+                            </tr>
+                            <tr>
+                                <td>Jan 16, 2026</td>
+                                <td>Bus Pass</td>
+                                <td><span class="category-badge">🚗 Transport</span></td>
+                                <td class="amount-negative">-$45.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        function selectRole(role) {
-            // Store role in sessionStorage
-            sessionStorage.setItem('userRole', role);
+        // Check user role and display appropriate content
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!userRole) {
+                // Redirect to index if no role is set
+                window.location.href = 'index.html';
+                return;
+            }
 
-            // Add fade-out animation
-            const mainContent = document.getElementById('mainContent');
-            mainContent.classList.add('fade-out');
+            // Update role badge
+            const roleBadge = document.getElementById('roleBadge');
+            roleBadge.textContent = userRole;
+            roleBadge.classList.add(userRole);
 
-            // Navigate to main.html after animation
-            setTimeout(() => {
-                window.location.href = 'main.html';
-            }, 500);
-        }
+            // Update welcome message
+            const welcomeTitle = document.getElementById('welcomeTitle');
+            welcomeTitle.textContent = `Welcome Back, ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}!`;
+
+            // Show/hide content based on role
+            if (userRole === 'student') {
+                document.querySelectorAll('.student-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+                document.querySelectorAll('.guardian-only').forEach(el => {
+                    el.style.display = 'none';
+                });
+            } else if (userRole === 'guardian') {
+                document.querySelectorAll('.guardian-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+                document.querySelectorAll('.student-only').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }
+        });
+
+        // Handle expense form submission
+        document.getElementById('expenseForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Expense added successfully! (This is a demo)');
+            this.reset();
+        });
+
+        // Navigation link active state
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.textContent.trim() !== 'Logout') {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
