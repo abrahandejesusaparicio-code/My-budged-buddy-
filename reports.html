@@ -1,1 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Reports</title>
+    
+    <!-- Tailwind CSS & DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --base-300: #26091b;
+            --base-100: #25253b;
+            --primary: #9077FF;
+            --accent: #CD2B62;
+            --secondary: #5E42DF;
+            --text-primary: #f5f5fa;
+            --text-secondary: #A76496;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--base-300) 0%, var(--base-100) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .role-badge.student {
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(144, 119, 255, 0.3);
+        }
+
+        .role-badge.guardian {
+            background: rgba(205, 43, 98, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(205, 43, 98, 0.3);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(144, 119, 255, 0.15);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(144, 119, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary.active {
+            background: rgba(144, 119, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Category Breakdown */
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .category-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .category-count {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .category-amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 2rem 1rem;
+            gap: 1rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 0.5rem 0.5rem 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            min-height: 20px;
+        }
+
+        .chart-bar:hover {
+            filter: brightness(1.2);
+            transform: translateY(-5px);
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .chart-value {
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .student-only,
+        .guardian-only {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">BUDGET BUDDY</div>
+                <div id="roleBadge" class="role-badge"></div>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="main.html" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="reports.html" class="nav-link active">
+                            <span class="nav-icon">📈</span>
+                            Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="categories.html" class="nav-link">
+                            <span class="nav-icon">🏷️</span>
+                            Categories
+                        </a>
+                    </li>
+                    <li class="nav-item student-only">
+                        <a href="goals.html" class="nav-link">
+                            <span class="nav-icon">🎯</span>
+                            Goals
+                        </a>
+                    </li>
+                    <li class="nav-item guardian-only">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="main.html#settings" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="nav-icon">🚪</span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Reports</h1>
+                <p class="page-subtitle">Analyze your spending patterns and trends</p>
+            </div>
+
+            <!-- Time Period Filter -->
+            <div class="filter-bar">
+                <button class="btn btn-secondary" onclick="setTimePeriod('week')">This Week</button>
+                <button class="btn btn-secondary active" onclick="setTimePeriod('month')">This Month</button>
+                <button class="btn btn-secondary" onclick="setTimePeriod('year')">This Year</button>
+                <button class="btn btn-secondary" onclick="setTimePeriod('all')">All Time</button>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-label">Total Spent</div>
+                    <div class="stat-value" id="totalSpent">$0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Average/Day</div>
+                    <div class="stat-value" id="avgPerDay">$0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔢</div>
+                    <div class="stat-label">Transactions</div>
+                    <div class="stat-value" id="transactionCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-label">Top Category</div>
+                    <div class="stat-value" id="topCategory" style="font-size: 1.2rem;">-</div>
+                </div>
+            </div>
+
+            <!-- Spending Trend Chart -->
+            <div class="glass-card">
+                <h3 class="card-title">📈 Spending Trend</h3>
+                <div class="chart-container" id="trendChart">
+                    <!-- Chart bars will be generated here -->
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="glass-card">
+                <h3 class="card-title">🏷️ Category Breakdown</h3>
+                <ul class="category-list" id="categoryBreakdown">
+                    <!-- Categories will be generated here -->
+                </ul>
+            </div>
+
+            <!-- Recent Insights -->
+            <div class="glass-card">
+                <h3 class="card-title">💡 Insights</h3>
+                <div id="insights" style="color: var(--text-secondary); line-height: 1.8;">
+                    <!-- Insights will be generated here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let expenses = [];
+        let currentPeriod = 'month';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!userRole) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const roleBadge = document.getElementById('roleBadge');
+            roleBadge.textContent = userRole;
+            roleBadge.classList.add(userRole);
+
+            if (userRole === 'student') {
+                document.querySelectorAll('.student-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+            } else if (userRole === 'guardian') {
+                document.querySelectorAll('.guardian-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+            }
+
+            loadData();
+            generateReport();
+        });
+
+        function loadData() {
+            const savedExpenses = localStorage.getItem('budgetBuddyExpenses');
+            if (savedExpenses) {
+                expenses = JSON.parse(savedExpenses);
+            }
+        }
+
+        function setTimePeriod(period) {
+            currentPeriod = period;
+            document.querySelectorAll('.filter-bar .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            generateReport();
+        }
+
+        function filterExpensesByPeriod() {
+            const now = new Date();
+            return expenses.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                const daysDiff = (now - expenseDate) / (1000 * 60 * 60 * 24);
+
+                switch(currentPeriod) {
+                    case 'week':
+                        return daysDiff <= 7;
+                    case 'month':
+                        return daysDiff <= 30;
+                    case 'year':
+                        return daysDiff <= 365;
+                    case 'all':
+                    default:
+                        return true;
+                }
+            });
+        }
+
+        function generateReport() {
+            const filteredExpenses = filterExpensesByPeriod();
+            
+            // Calculate stats
+            const totalSpent = filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const transactionCount = filteredExpenses.length;
+            const avgPerDay = transactionCount > 0 ? totalSpent / getDaysInPeriod() : 0;
+
+            // Update stats
+            document.getElementById('totalSpent').textContent = `$${totalSpent.toFixed(2)}`;
+            document.getElementById('avgPerDay').textContent = `$${avgPerDay.toFixed(2)}`;
+            document.getElementById('transactionCount').textContent = transactionCount;
+
+            // Category breakdown
+            const categoryTotals = {};
+            const categoryIcons = {
+                food: '🍔',
+                transport: '🚗',
+                entertainment: '🎮',
+                education: '📚',
+                health: '💊',
+                other: '📦'
+            };
+            const categoryNames = {
+                food: 'Food & Dining',
+                transport: 'Transportation',
+                entertainment: 'Entertainment',
+                education: 'Education',
+                health: 'Health',
+                other: 'Other'
+            };
+
+            filteredExpenses.forEach(expense => {
+                if (!categoryTotals[expense.category]) {
+                    categoryTotals[expense.category] = { amount: 0, count: 0 };
+                }
+                categoryTotals[expense.category].amount += expense.amount;
+                categoryTotals[expense.category].count += 1;
+            });
+
+            // Find top category
+            let topCategory = '-';
+            let topAmount = 0;
+            for (let cat in categoryTotals) {
+                if (categoryTotals[cat].amount > topAmount) {
+                    topAmount = categoryTotals[cat].amount;
+                    topCategory = categoryIcons[cat] + ' ' + categoryNames[cat];
+                }
+            }
+            document.getElementById('topCategory').textContent = topCategory;
+
+            // Generate category breakdown
+            const categoryList = document.getElementById('categoryBreakdown');
+            const sortedCategories = Object.entries(categoryTotals).sort((a, b) => b[1].amount - a[1].amount);
+            
+            if (sortedCategories.length === 0) {
+                categoryList.innerHTML = '<li style="padding: 2rem; text-align: center; color: var(--text-secondary);">No expenses found for this period.</li>';
+            } else {
+                categoryList.innerHTML = sortedCategories.map(([cat, data]) => {
+                    const percentage = (data.amount / totalSpent * 100).toFixed(1);
+                    return `
+                        <li class="category-item">
+                            <div class="category-info">
+                                <div class="category-icon">${categoryIcons[cat]}</div>
+                                <div class="category-details">
+                                    <div class="category-name">${categoryNames[cat]}</div>
+                                    <div class="category-count">${data.count} transaction${data.count !== 1 ? 's' : ''}</div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="category-amount">$${data.amount.toFixed(2)}</div>
+                        </li>
+                    `;
+                }).join('');
+            }
+
+            // Generate trend chart
+            generateTrendChart(filteredExpenses);
+
+            // Generate insights
+            generateInsights(filteredExpenses, categoryTotals, totalSpent);
+        }
+
+        function getDaysInPeriod() {
+            switch(currentPeriod) {
+                case 'week': return 7;
+                case 'month': return 30;
+                case 'year': return 365;
+                case 'all': return Math.max(1, expenses.length);
+                default: return 30;
+            }
+        }
+
+        function generateTrendChart(filteredExpenses) {
+            const chartContainer = document.getElementById('trendChart');
+            
+            if (filteredExpenses.length === 0) {
+                chartContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary); margin: 2rem;">No data available for this period.</p>';
+                return;
+            }
+
+            // Group by day for week, by week for month, by month for year
+            const grouped = {};
+            filteredExpenses.forEach(expense => {
+                const date = new Date(expense.date);
+                let key;
+                
+                if (currentPeriod === 'week') {
+                    key = date.toLocaleDateString('en-US', { weekday: 'short' });
+                } else if (currentPeriod === 'month') {
+                    const weekNum = Math.ceil(date.getDate() / 7);
+                    key = `Week ${weekNum}`;
+                } else {
+                    key = date.toLocaleDateString('en-US', { month: 'short' });
+                }
+
+                if (!grouped[key]) grouped[key] = 0;
+                grouped[key] += expense.amount;
+            });
+
+            const maxAmount = Math.max(...Object.values(grouped));
+            
+            chartContainer.innerHTML = Object.entries(grouped).map(([label, amount]) => {
+                const height = (amount / maxAmount * 100);
+                return `
+                    <div class="chart-bar" style="height: ${height}%">
+                        <div class="chart-value">$${amount.toFixed(0)}</div>
+                        <div class="chart-label">${label}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function generateInsights(filteredExpenses, categoryTotals, totalSpent) {
+            const insightsContainer = document.getElementById('insights');
+            const insights = [];
+
+            if (filteredExpenses.length === 0) {
+                insightsContainer.innerHTML = '<p>No insights available. Start adding expenses to see personalized insights!</p>';
+                return;
+            }
+
+            // Average transaction
+            const avgTransaction = totalSpent / filteredExpenses.length;
+            insights.push(`💰 Your average transaction is <strong style="color: var(--text-primary);">$${avgTransaction.toFixed(2)}</strong>`);
+
+            // Highest spending day
+            const dayTotals = {};
+            filteredExpenses.forEach(exp => {
+                const day = new Date(exp.date).toLocaleDateString('en-US', { weekday: 'long' });
+                if (!dayTotals[day]) dayTotals[day] = 0;
+                dayTotals[day] += exp.amount;
+            });
+            const highestDay = Object.entries(dayTotals).sort((a, b) => b[1] - a[1])[0];
+            if (highestDay) {
+                insights.push(`📅 You spend most on <strong style="color: var(--text-primary);">${highestDay[0]}s</strong> ($${highestDay[1].toFixed(2)})`);
+            }
+
+            // Category insight
+            const sortedCats = Object.entries(categoryTotals).sort((a, b) => b[1].amount - a[1].amount);
+            if (sortedCats.length > 0) {
+                const topCat = sortedCats[0];
+                const percentage = (topCat[1].amount / totalSpent * 100).toFixed(1);
+                const categoryNames = {
+                    food: 'Food & Dining',
+                    transport: 'Transportation',
+                    entertainment: 'Entertainment',
+                    education: 'Education',
+                    health: 'Health',
+                    other: 'Other'
+                };
+                insights.push(`🏆 <strong style="color: var(--text-primary);">${categoryNames[topCat[0]]}</strong> accounts for ${percentage}% of your spending`);
+            }
+
+            // Spending comparison
+            const goal = parseFloat(localStorage.getItem('budgetBuddyGoal') || '1000');
+            if (currentPeriod === 'month') {
+                const remaining = goal - totalSpent;
+                if (remaining > 0) {
+                    insights.push(`✅ You're within budget! <strong style="color: #4ADE80;">$${remaining.toFixed(2)}</strong> remaining this month`);
+                } else {
+                    insights.push(`⚠️ You've exceeded your budget by <strong style="color: var(--accent);">$${Math.abs(remaining).toFixed(2)}</strong>`);
+                }
+            }
+
+            insightsContainer.innerHTML = insights.map(insight => `<p style="margin-bottom: 0.75rem;">• ${insight}</p>`).join('');
+        }
+    </script>
+</body>
+</html>
